@@ -1,0 +1,30 @@
+name: Feature request
+description: Suggest something OpenQuery should do
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        OpenQuery deliberately does one thing well: OpenAPI → React Query Kit
+        factories. Proposals that fit that scope are much more likely to land —
+        see the design principles in CONTRIBUTING.md.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you hitting?
+      description: Describe the situation, not the solution.
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: What would you want generated?
+      description: Show the ideal generated code, if you have a shape in mind.
+      render: typescript
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What are you doing instead today?

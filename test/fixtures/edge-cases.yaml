@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: Edge Cases
+  version: 1.0.0
+  description: >
+    Every shape that has historically broken OpenAPI code generators.
+    If this file generates cleanly, most real specs will too.
+
+paths:
+  # Self-referential response — dereferencing makes this a circular JS object.
+  /comments:
+    get:
+      operationId: listComments
+      summary: List comments
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Comment" }
+
+  # No operationId — must be derived from method + path.
+  /widgets/{widgetId}/parts:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { type: string }
+    parameters:
+      - name: widgetId
+        in: path
+        required: true
+        schema: { type: string }
+
+  # Duplicate operationId — second occurrence must be suffixed, not overwrite.
+  /dupes/a:
+    get:
+      operationId: duplicated
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: { type: string }
+  /dupes/b:
+    get:
+      operationId: duplicated
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: { type: number }
+
+  # Reserved word as an operationId.
+  /reserved:
+    get:
+      operationId: delete
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: { type: boolean }
+
+  # 204 with no content — response type must be void.
+  /ping:
+    post:
+      operationId: ping
+      responses:
+        "204":
+          description: No content
+
+  # Parameter names that are not valid TS identifiers.
+  /odd-params:
+    get:
+      operationId: oddParams
+      parameters:
+        - name: "filter[status]"
+          in: query
+          schema: { type: string }
+        - name: X-Request-Id
+          in: header
+          schema: { type: string }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: true }
+
+  # Composition, nullability, and enums.
+  /composed:
+    post:
+      operationId: createComposed
+      deprecated: true
+      description: Exercises allOf, oneOf, nullable, and enums.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Base"
+                - type: object
+                  properties:
+                    extra: { type: string, nullable: true }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/Base"
+                  - { type: string }
+
+  # Opted in to pagination via a spec extension.
+  /feed:
+    get:
+      operationId: listFeed
+      x-openquery-pagination:
+        param: cursor
+        nextField: nextCursor
+      parameters:
+        - name: cursor
+          in: query
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: "#/components/schemas/Comment" }
+                  nextCursor: { type: string, nullable: true }
+
+components:
+  schemas:
+    # Directly self-referential.
+    Comment:
+      type: object
+      required: [id]
+      properties:
+        id: { type: string }
+        body: { type: string }
+        replies:
+          type: array
+          items: { $ref: "#/components/schemas/Comment" }
+
+    # Mutually recursive pair.
+    Node:
+      type: object
+      properties:
+        edge: { $ref: "#/components/schemas/Edge" }
+    Edge:
+      type: object
+      properties:
+        node: { $ref: "#/components/schemas/Node" }
+
+    Base:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          enum: [alpha, beta, gamma]
+        count: { type: integer }
+        tags:
+          type: object
+          additionalProperties: { type: string }

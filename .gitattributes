@@ -1,0 +1,7 @@
+# Normalize line endings so contributors on different platforms don't
+# produce spurious whole-file diffs.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

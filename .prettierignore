@@ -1,0 +1,10 @@
+**/dist/
+coverage/
+test/__snapshots__/
+test/.out/
+# Generated output follows the *user's* Prettier config, not ours.
+examples/*/src/api/
+# Fixtures are hand-formatted so the edge cases stay readable.
+test/fixtures/
+examples/petstore-react/openapi.yaml
+CHANGELOG.md
