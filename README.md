@@ -174,18 +174,6 @@ src/api/
 
 ---
 
-## 🔄 OpenQuery vs Orval
-
-| | **OpenQuery** | **Orval** |
-| --- | --- | --- |
-| **Output style** | `createQuery` / `createMutation` / `createInfiniteQuery` (react-query-kit) | `useQuery` / `useMutation` hooks |
-| **Pagination** | First-class `createInfiniteQuery` support | Manual infinite query setup |
-| **Framework** | React Query + react-query-kit | React Query, SWR, Angular, Vue, etc. |
-| **Focus** | One thing, done well | Broad multi-framework support |
-| **Mocking** | Planned | MSW + Faker.js |
-
----
-
 ## 🎯 Goal
 
 OpenQuery aims to be the best-in-class code generator for teams using
