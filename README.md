@@ -1,112 +1,235 @@
-# OpenQuery
+<div align="center">
 
-> OpenAPI → Type-safe React Query Kit factories.
+# 🐟 QueryFish
 
-OpenQuery is an open-source code generator that transforms your
-[OpenAPI/Swagger](https://swagger.io/specification/) specifications into
-fully typed API clients powered by
-[React Query](https://tanstack.com/query) and
-[react-query-kit](https://github.com/HuolalaTech/react-query-kit).
+**Hook your API. Typed, straight from the spec.**
 
----
+Turn an OpenAPI document into fully typed [React Query](https://tanstack.com/query)
+hooks powered by [react-query-kit](https://github.com/HuolalaTech/react-query-kit) —
+with zero runtime and no hand-written client code.
 
-## ✨ Features
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D20.19-brightgreen.svg)](https://nodejs.org)
+[![Types](https://img.shields.io/badge/types-included-blue.svg)](https://www.typescriptlang.org/)
 
-| Feature                             | Description                                                                    |
-| ----------------------------------- | ------------------------------------------------------------------------------ |
-| **TypeScript types**                | Auto-generated request/response types from your OpenAPI spec                   |
-| **`createQuery`**                   | Generated query factories for every `GET` endpoint                             |
-| **`createMutation`**                | Generated mutation factories for `POST` / `PUT` / `PATCH` / `DELETE` endpoints |
-| **`createInfiniteQuery`**           | Opt-in infinite query factories for paginated endpoints                        |
-| **Type-safe variables**             | Path params, query params, and request bodies are fully typed                  |
-| **Prefix-invalidatable keys**       | Query keys mirror your URL structure                                           |
-| **OpenAPI 3.0 · 3.1 · Swagger 2.0** | All three, from local files or URLs                                            |
-| **Minimal config**                  | Point at a spec, get production-ready code                                     |
-| **Zero runtime**                    | Generated code imports your HTTP client — OpenQuery is a dev dependency only   |
+[Quick start](#-quick-start) · [How it works](#-how-it-works) · [Configuration](#%EF%B8%8F-configuration) · [Example app](./examples/petstore-react) · [Docs](./docs)
+
+</div>
 
 ---
 
-## 🚀 Quick Example
+## Why QueryFish?
 
-Given an OpenAPI spec:
+You already describe your API once, in OpenAPI. Writing the fetch functions, the
+TypeScript types, and the React Query hooks by hand means describing it three
+more times — and keeping all four in sync forever.
+
+QueryFish generates the other three.
+
+```diff
+- const { data } = useQuery({
+-   queryKey: ['pet', petId],
+-   queryFn: () => fetch(`/api/pets/${petId}`).then(r => r.json()),
+- });
+- // data: any — and the key is whatever you remembered to type
+
++ const { data } = useGetPet({ variables: { petId } });
++ // data: Pet — petId is required, typos don't compile
+```
+
+**What makes it different:**
+
+- 🎯 **It never guesses.** Where OpenAPI has no standard — pagination, notably —
+  QueryFish requires an explicit opt-in instead of inferring. A wrong guess that
+  compiles is worse than no feature.
+- 🔑 **Query keys mirror your URLs**, so one call invalidates a whole resource
+  tree instead of a single endpoint.
+- 🪶 **Zero runtime.** QueryFish is a `devDependency`. Nothing it publishes ends
+  up in your bundle.
+- ✅ **The output is verified to compile**, not assumed to — CI type-checks
+  generated code against the real react-query-kit on every run.
+- 🧬 **Handles specs that break other generators**: recursive schemas, duplicate
+  and missing `operationId`s, reserved words, `allOf`/`oneOf`, Swagger 2.0.
+
+---
+
+## 🚀 Quick start
+
+**1. Install**
+
+```bash
+npm install queryfish --save-dev
+```
+
+**2. Write your client** — this is yours, so auth and interceptors stay in your
+code:
+
+```ts
+// src/api/client.ts
+import axios from 'axios';
+
+export const client = axios.create({ baseURL: '/api' });
+```
+
+<sub>An axios instance works as-is. Prefer `fetch`? See the
+[worked example](./examples/petstore-react/src/client.ts) — about 40 lines, no
+dependencies.</sub>
+
+**3. Configure**
+
+```ts
+// queryfish.config.ts
+import { defineConfig } from 'queryfish';
+
+export default defineConfig({
+  input: './openapi.yaml', // path or URL
+  output: './src/api',
+  client: './src/api/client.ts',
+});
+```
+
+**4. Generate**
+
+```bash
+npx queryfish generate
+```
+
+```
+  + types.ts
+  + requests.ts
+  + queries.ts
+  + mutations.ts
+  + index.ts
+✓ Generated 6 operations → src/api
+```
+
+**5. Use it**
+
+```tsx
+import { useGetPet } from './api/queries';
+import { useCreatePet } from './api/mutations';
+
+function Pet({ petId }: { petId: string }) {
+  const { data, isPending } = useGetPet({ variables: { petId } });
+
+  if (isPending) return <Spinner />;
+  return <h1>{data.name}</h1>; // data is `Pet`, fully typed
+}
+```
+
+---
+
+## 🔍 How it works
+
+Give it a spec:
 
 ```yaml
 paths:
   /pets/{petId}:
     get:
       operationId: getPet
+      summary: Get a pet by ID
       parameters:
         - name: petId
           in: path
           required: true
-          schema:
-            type: string
+          schema: { type: string }
       responses:
         '200':
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
+              schema: { $ref: '#/components/schemas/Pet' }
 ```
 
-OpenQuery generates a **query factory**:
+Get back four files of ordinary, readable TypeScript:
+
+<table>
+<tr><td width="50%">
+
+**`types.ts`**
 
 ```ts
-import { createQuery } from 'react-query-kit';
-import { getPet } from './requests.js';
-import type { GetPetVariables, GetPetResponse } from './types.js';
+export interface Pet {
+  id: string;
+  name: string;
+  tag?: string;
+}
 
+export type GetPetVariables = {
+  petId: string;
+};
+
+export type GetPetResponse = Pet;
+```
+
+</td><td width="50%">
+
+**`requests.ts`**
+
+```ts
+import { client } from '../client';
+
+export const getPet = (variables: GetPetVariables) =>
+  client.request<GetPetResponse>({
+    method: 'GET',
+    url: `/pets/${variables.petId}`,
+  });
+```
+
+</td></tr>
+<tr><td>
+
+**`queries.ts`**
+
+```ts
+/** Get a pet by ID */
 export const useGetPet = createQuery<GetPetResponse, GetPetVariables>({
   queryKey: ['pets', '{petId}'],
   fetcher: getPet,
 });
 ```
 
-Use it in your component:
+</td><td>
 
-```tsx
-const { data } = useGetPet({
-  variables: { petId: '123' },
-});
-```
-
-### Query keys mirror your URLs
-
-react-query-kit appends `variables` to the key automatically, so the runtime key
-is `['pets', '{petId}', { petId: '123' }]` — cache entries stay separated per
-variable. Because the prefix is the URL path, you can invalidate a whole
-resource tree in one call:
+**`mutations.ts`**
 
 ```ts
-// Clears every /pets/* query at once
-queryClient.invalidateQueries({ queryKey: ['pets'] });
-```
-
-### Mutations
-
-```yaml
-paths:
-  /pets:
-    post:
-      operationId: createPet
-```
-
-Generates:
-
-```ts
-import { createMutation } from 'react-query-kit';
-
+/** Create a pet */
 export const useCreatePet = createMutation<CreatePetResponse, CreatePetVariables>({
   mutationFn: createPet,
 });
 ```
 
-### Infinite Queries (opt-in)
+</td></tr>
+</table>
 
-OpenAPI has no standard way to describe pagination, so **OpenQuery never
-guesses**. A generator that infers pagination wrong produces a hook that
-compiles fine and then fetches page 2 forever — so you opt in explicitly, either
-in your config:
+Your spec's `summary` becomes JSDoc, so the description shows up on hover in
+your editor.
+
+### Query keys mirror your URLs
+
+This is the detail that pays off daily. react-query-kit appends `variables`
+automatically, so `['pets', '{petId}']` becomes
+`['pets', '{petId}', { petId: '123' }]` at runtime — cache entries stay separate
+per pet. But because the _prefix_ is the URL path, one call clears everything
+about a resource:
+
+```ts
+// After creating, updating, or deleting a pet:
+queryClient.invalidateQueries({ queryKey: ['pets'] });
+// ↑ refetches /pets, /pets/{petId}, /pets/{petId}/toys — all of it
+```
+
+With operation-name keys you would have to list every affected hook by hand, and
+update that list whenever an endpoint is added.
+
+### Infinite queries — opt in, never inferred
+
+OpenAPI has no standard for pagination. Generators that guess produce the worst
+kind of bug: a hook that type-checks, looks right, and then silently fetches the
+same page forever.
+
+So QueryFish asks. Either in config:
 
 ```ts
 pagination: {
@@ -117,21 +240,15 @@ pagination: {
 or in the spec itself:
 
 ```yaml
-paths:
-  /pets:
-    get:
-      operationId: listPets
-      x-openquery-pagination:
-        param: cursor
-        nextField: nextCursor
+x-queryfish-pagination:
+  param: cursor
+  nextField: nextCursor
 ```
-
-Which generates:
 
 ```ts
 export const useListPetsInfinite = createInfiniteQuery<
   ListPetsResponse,
-  Omit<ListPetsVariables, 'cursor'>,
+  Omit<ListPetsVariables, 'cursor'>, // ← cursor comes from pageParam
   Error,
   string | undefined
 >({
@@ -142,140 +259,163 @@ export const useListPetsInfinite = createInfiniteQuery<
 });
 ```
 
-The cursor is supplied by `pageParam`, so it's omitted from the hook's variables
-— you can't set it by mistake. With no opt-in, `infiniteQueries.ts` isn't
-generated at all.
+Opt in to nothing and `infiniteQueries.ts` is never written at all.
+<sub>[Full reasoning →](./docs/adr/0005-opt-in-pagination.md)</sub>
 
 ---
 
-## 📦 Installation
-
-```bash
-npm install openquery --save-dev
-# or
-yarn add openquery --dev
-```
-
----
-
-## 🛠️ Usage
-
-### 1. Write a client
-
-OpenQuery ships **no runtime**. Generated request functions import a `client`
-that you own, so auth, interceptors, retries, and base URLs stay in your code:
+## ⚙️ Configuration
 
 ```ts
-// src/api/client.ts
-import axios from 'axios';
-
-export const client = axios.create({ baseURL: '/api' });
-```
-
-An axios instance works as-is. So does anything with a matching `request`
-method — see the [fetch-based client](./examples/petstore-react/src/client.ts)
-in the example if you'd rather not add a dependency.
-
-### 2. Configure
-
-Create an `openquery.config.ts` in your project root:
-
-```ts
-import { defineConfig } from 'openquery';
+import { defineConfig } from 'queryfish';
 
 export default defineConfig({
-  input: './openapi.yaml', // path or URL to your OpenAPI spec
-  output: './src/api', // output directory for generated code
-  client: './src/api/client.ts', // module exporting your `client`
+  /** Path or URL to your OpenAPI/Swagger document. Required. */
+  input: './openapi.yaml',
+
+  /** Directory for generated files. Required. */
+  output: './src/api',
+
+  /** Module exporting your HTTP `client`. Default: './client' */
+  client: './src/api/client.ts',
+
+  /** Opt in to infinite queries, keyed by path. Default: none. */
+  pagination: {
+    '/pets': { param: 'cursor', nextField: 'nextCursor' },
+  },
+
+  /** Format output with your Prettier config. Default: true */
+  format: true,
+
+  /** Emit a barrel index.ts. Default: true */
+  barrel: true,
 });
 ```
 
-### 3. Generate
+Config files may be `.ts`, `.mts`, `.js`, `.mjs`, or `.json`.
+
+### CLI
 
 ```bash
-npx openquery generate
+queryfish generate [options]
 ```
 
-### CLI options
+| Option                | Description                             |
+| --------------------- | --------------------------------------- |
+| `-c, --config <path>` | Path to config file                     |
+| `-i, --input <spec>`  | Path or URL to the OpenAPI document     |
+| `-o, --output <dir>`  | Output directory                        |
+| `--client <module>`   | Module exporting the HTTP client        |
+| `--dry-run`           | Report what would change, write nothing |
+| `--watch`             | Regenerate when the spec changes        |
+| `--no-format`         | Skip Prettier formatting                |
+| `--silent`            | Suppress output                         |
+
+CLI flags override the config file. Errors point at the exact spot in your spec:
 
 ```
-openquery generate [options]
+error: cannot resolve schema
+  at paths./pets.get.responses.200
+  in openapi.yaml:42
 
-  -c, --config <path>   Path to config file
-  -i, --input <spec>    Path or URL to the OpenAPI document
-  -o, --output <dir>    Output directory
-      --client <module> Module exporting the HTTP client
-      --no-format       Skip Prettier formatting
-      --dry-run         Report what would change without writing
-      --watch           Regenerate when the spec changes
-      --silent          Suppress output
+  Check that the $ref target exists in components.schemas.
 ```
 
-### Generated output structure
+---
+
+## 📂 What gets generated
 
 ```
 src/api/
-├── types.ts           # TypeScript interfaces & enums
-├── requests.ts        # Plain async request functions
-├── queries.ts         # createQuery factories
-├── mutations.ts       # createMutation factories
-├── infiniteQueries.ts # createInfiniteQuery factories (only if opted in)
+├── types.ts           # Interfaces, enums, request/response types
+├── requests.ts        # Plain async functions — usable without React
+├── queries.ts         # createQuery factories (GET, HEAD)
+├── mutations.ts       # createMutation factories (POST, PUT, PATCH, DELETE)
+├── infiniteQueries.ts # createInfiniteQuery factories — only if opted in
 └── index.ts           # Barrel re-export
 ```
 
 Output is formatted with **your** Prettier config, so it matches the rest of
-your codebase.
+your codebase rather than fighting it. Commit it — it's meant to be read and
+reviewed.
 
 ---
 
-## 📁 Example
+## 🧬 Specs it handles
 
-A complete React app lives in
-[`examples/petstore-react`](./examples/petstore-react) — spec, config, committed
-generated output, and hooks in use.
+Real specs break naive generators. These are covered, with a
+[regression fixture](./test/fixtures/edge-cases.yaml) for each:
+
+|                             |                                                                          |
+| --------------------------- | ------------------------------------------------------------------------ |
+| **Recursive schemas**       | `Comment.replies: Comment[]` and mutually recursive types emit correctly |
+| **Missing `operationId`**   | Derived from method + path (`getPetsByPetIdToys`)                        |
+| **Duplicate `operationId`** | Deterministically suffixed, with a warning                               |
+| **Reserved words**          | `delete` → `delete_`                                                     |
+| **Odd parameter names**     | `filter[status]`, `X-Request-Id` quoted correctly                        |
+| **Composition**             | `allOf` → intersection, `oneOf`/`anyOf` → union                          |
+| **Nullability**             | Both `nullable: true` and 3.1's `type: ['string', 'null']`               |
+| **Empty responses**         | `204` → `void`                                                           |
+| **Swagger 2.0**             | `definitions`, `in: body` parameters, response schemas                   |
 
 ---
 
-## 🎯 Goal
+## 📖 Documentation
 
-OpenQuery aims to be the best-in-class code generator for teams using
-**React Query Kit**.
-
-Instead of trying to support every framework and every pattern, OpenQuery
-focuses on doing one thing exceptionally well:
-
-**OpenAPI → `createQuery` · `createMutation` · `createInfiniteQuery`**
+|                                          |                                              |
+| ---------------------------------------- | -------------------------------------------- |
+| [Example app](./examples/petstore-react) | A React app using generated hooks end to end |
+| [Architecture](./docs/architecture.md)   | How the generator works, stage by stage      |
+| [Decisions (ADRs)](./docs/adr)           | Why things are the way they are              |
+| [Contributing](./CONTRIBUTING.md)        | Clone to merged PR                           |
+| [Conventions](./docs/conventions)        | Commits, code style, versioning              |
 
 ---
 
 ## 🗺️ Roadmap
 
-- [x] Core code generation (`createQuery`, `createMutation`)
-- [x] `createInfiniteQuery` for paginated endpoints (opt-in)
-- [x] Custom Axios / fetch instance support
-- [x] Watch mode for spec changes
-- [x] Swagger 2.0 support
+- [x] `createQuery` and `createMutation` factories
+- [x] `createInfiniteQuery` (opt-in)
+- [x] Custom axios / fetch client support
+- [x] Watch mode
+- [x] OpenAPI 3.0, 3.1, and Swagger 2.0
 - [ ] Zod schema generation for runtime validation
 - [ ] MSW mock handler generation
-- [ ] Plugin system for custom output
 - [ ] Suspense query variants
+- [ ] Plugin system for custom output
+
+Have a use case that doesn't fit? [Open an issue](https://github.com/ravitejas-tech/queryfish/issues) —
+scope decisions are made in the open.
 
 ---
 
 ## 🤝 Contributing
 
-OpenQuery is open source and contributions are welcome.
+Contributions are genuinely welcome, and the project is set up so a first PR
+doesn't require asking anyone anything.
 
-Start with [CONTRIBUTING.md](./CONTRIBUTING.md) for the development workflow and
-[docs/architecture.md](./docs/architecture.md) for how the generator is put
-together. The [conventions](./docs/conventions/) cover commits, code style, and
-versioning; the [ADRs](./docs/adr/) record why the significant decisions were
-made — worth a look before proposing a change to one.
+```bash
+git clone https://github.com/ravitejas-tech/queryfish.git
+cd queryfish
+npm install
+npm test
+```
 
-Feel free to open an issue, suggest an improvement, or submit a pull request.
+Start with [CONTRIBUTING.md](./CONTRIBUTING.md), then
+[docs/architecture.md](./docs/architecture.md). If something looks wrong in the
+code, check the [ADRs](./docs/adr) first — it may be deliberate, and the
+reasoning plus the rejected alternatives are written down.
+
+Good first contributions: add a spec shape to
+[`edge-cases.yaml`](./test/fixtures/edge-cases.yaml) that breaks the generator,
+or improve an error message.
 
 ---
 
 ## 📄 License
 
-MIT
+[MIT](./LICENSE)
+
+<div align="center">
+<sub>Built for teams who'd rather write features than fetch functions.</sub>
+</div>

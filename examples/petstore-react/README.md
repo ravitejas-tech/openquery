@@ -1,10 +1,10 @@
 # Petstore example
 
-A small React app consuming hooks that OpenQuery generated from
+A small React app consuming hooks that QueryFish generated from
 [`openapi.yaml`](./openapi.yaml).
 
 The generated output in [`src/api/`](./src/api) is **committed on purpose** — it
-shows what OpenQuery actually produces without needing to run anything, and CI
+shows what QueryFish actually produces without needing to run anything, and CI
 regenerates it to make sure the committed copy never drifts from the generator.
 
 ```bash
@@ -20,8 +20,8 @@ The API URL defaults to a placeholder host; point it somewhere real with
 
 | File                                           | Why                                                   |
 | ---------------------------------------------- | ----------------------------------------------------- |
-| [`openquery.config.ts`](./openquery.config.ts) | The whole configuration — three lines                 |
-| [`src/client.ts`](./src/client.ts)             | The HTTP client _you_ own; OpenQuery ships no runtime |
+| [`queryfish.config.ts`](./queryfish.config.ts) | The whole configuration — three lines                 |
+| [`src/client.ts`](./src/client.ts)             | The HTTP client _you_ own; QueryFish ships no runtime |
 | [`src/api/`](./src/api)                        | Generated: types, requests, queries, mutations        |
 | [`src/App.tsx`](./src/App.tsx)                 | Hooks in use, including prefix invalidation           |
 
@@ -43,5 +43,5 @@ compile without `petId`, even though the spec's `required` flag is easy to
 forget.
 
 **No infinite queries here.** This spec doesn't opt in to pagination, so
-`infiniteQueries.ts` is not generated at all — OpenQuery never guesses which
+`infiniteQueries.ts` is not generated at all — QueryFish never guesses which
 endpoints paginate.

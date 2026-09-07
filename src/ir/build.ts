@@ -1,6 +1,6 @@
 /** OpenAPI document → IR. */
 
-import type { OpenQueryConfig, PaginationConfig } from '../config/define.js';
+import type { QueryFishConfig, PaginationConfig } from '../config/define.js';
 import type {
   HttpMethod,
   IR,
@@ -70,18 +70,18 @@ function successResponse(responses: Record<string, any> | undefined): any | unde
 /**
  * Resolve pagination for an operation.
  *
- * Opt-in only: config first, then an `x-openquery-pagination` extension in the
+ * Opt-in only: config first, then an `x-queryfish-pagination` extension in the
  * spec. Config wins, and `false` in config suppresses a spec-level opt-in.
  */
 function resolvePagination(
   path: string,
   rawOperation: Record<string, any>,
-  config: OpenQueryConfig,
+  config: QueryFishConfig,
 ): PaginationSpec | undefined {
   const fromConfig = config.pagination?.[path];
   if (fromConfig === false) return undefined;
 
-  const extension = rawOperation['x-openquery-pagination'] as
+  const extension = rawOperation['x-queryfish-pagination'] as
     PaginationConfig | undefined;
   const chosen = fromConfig ?? extension;
   if (!chosen || typeof chosen !== 'object') return undefined;
@@ -94,7 +94,7 @@ function resolvePagination(
   };
 }
 
-export function buildIR(document: Record<string, any>, config: OpenQueryConfig): IR {
+export function buildIR(document: Record<string, any>, config: QueryFishConfig): IR {
   const registry = new NameRegistry();
   const converter = new SchemaConverter(registry);
   const warnings: string[] = [];

@@ -2,7 +2,7 @@
  * The `infiniteQueries.ts` output.
  *
  * Emitted ONLY for operations that explicitly opted in to pagination, via config
- * or an `x-openquery-pagination` extension. With no opt-in this file is not
+ * or an `x-queryfish-pagination` extension. With no opt-in this file is not
  * written at all — OpenAPI has no pagination standard, and a guessed
  * `getNextPageParam` produces a hook that silently fetches forever.
  *

@@ -1,4 +1,4 @@
-# Contributing to OpenQuery
+# Contributing to QueryFish
 
 Thanks for being here. This guide should get you from clone to merged PR without
 having to ask anyone anything — if it doesn't, that's a bug worth reporting.
@@ -6,8 +6,8 @@ having to ask anyone anything — if it doesn't, that's a bug worth reporting.
 ## Getting started
 
 ```bash
-git clone https://github.com/ravitejas-tech/openquery.git
-cd openquery
+git clone https://github.com/ravitejas-tech/queryfish.git
+cd queryfish
 npm install
 npm test
 ```
@@ -126,10 +126,10 @@ Worth knowing before proposing changes, because these shape what gets accepted:
 
 1. **Zero runtime.** Generated code depends on `react-query-kit`,
    `@tanstack/react-query`, and the user's own client module. Nothing else.
-   OpenQuery must never need to be installed at runtime.
+   QueryFish must never need to be installed at runtime.
    ([ADR 0006](./docs/adr/0006-user-supplied-http-client.md))
 2. **Never guess.** Where OpenAPI has no standard (pagination being the notable
-   case), OpenQuery requires an explicit opt-in rather than inferring. A wrong
+   case), QueryFish requires an explicit opt-in rather than inferring. A wrong
    guess that compiles is worse than no feature — it fails silently at runtime.
    ([ADR 0005](./docs/adr/0005-opt-in-pagination.md))
 3. **Generated code should read like a human wrote it.** It gets committed,

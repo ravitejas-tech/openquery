@@ -1,4 +1,4 @@
-# OpenQuery documentation
+# QueryFish documentation
 
 ## Start here
 

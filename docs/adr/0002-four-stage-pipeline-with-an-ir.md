@@ -9,7 +9,7 @@ The obvious way to build a code generator is to walk the OpenAPI document and
 print TypeScript as you go. It's less code, and for a single output format it
 works.
 
-But OpenQuery has to solve three problems that don't fit that shape:
+But QueryFish has to solve three problems that don't fit that shape:
 
 1. **Recursive schemas.** Deciding whether `Comment.replies` becomes
    `Comment[]` or an inline expansion requires knowing which schemas are named
@@ -25,7 +25,7 @@ are all _more outputs over the same operations_.
 
 ## Decision
 
-OpenQuery is a four-stage pipeline, each stage pure and separately testable:
+QueryFish is a four-stage pipeline, each stage pure and separately testable:
 
 ```
 loader/  spec → self-contained document

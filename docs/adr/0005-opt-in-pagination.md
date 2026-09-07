@@ -41,7 +41,7 @@ pagination: {
 or in the spec itself:
 
 ```yaml
-x-openquery-pagination:
+x-queryfish-pagination:
   param: cursor
   nextField: nextCursor
 ```

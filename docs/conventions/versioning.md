@@ -1,10 +1,10 @@
 # Versioning and releases
 
-OpenQuery follows [Semantic Versioning](https://semver.org/).
+QueryFish follows [Semantic Versioning](https://semver.org/).
 
 ## The part that's different for a code generator
 
-Most libraries version their **API**. OpenQuery has two surfaces, and the
+Most libraries version their **API**. QueryFish has two surfaces, and the
 second one is the one that catches people out:
 
 1. **The tool's API** — the CLI, `defineConfig`, exported functions.
@@ -25,7 +25,7 @@ after regenerating, it's breaking — regardless of what changed internally.**
 - Generated hook, type, or request function names change
 - Query key shape changes (invalidation calls silently stop matching)
 - The variables or response type of a generated hook changes shape
-- The `OpenQueryClient` interface gains a required member
+- The `QueryFishClient` interface gains a required member
 - A config option is removed or its meaning changes
 - The minimum supported Node or TypeScript version rises
 - Output that previously compiled no longer does
@@ -82,7 +82,7 @@ for a reviewer reading the diff:
 
 ```md
 ---
-'openquery': patch
+'queryfish': patch
 ---
 
 Fix `$ref` resolution inside `allOf` members. Components referenced from within
@@ -100,7 +100,7 @@ whether to upgrade:
 
 ```md
 ---
-'openquery': major
+'queryfish': major
 ---
 
 Query keys now use URL path segments instead of `operationId`.

@@ -7,7 +7,7 @@
 
 `@redocly/openapi-core` offers `bundle({ ref, config, dereference })`. Passing
 `dereference: true` inlines every `$ref` so downstream code never has to
-resolve pointers. That is the obvious choice, and it is what OpenQuery was
+resolve pointers. That is the obvious choice, and it is what QueryFish was
 originally built on.
 
 It fails on recursive schemas, which are ordinary — `Comment.replies`,
@@ -49,7 +49,7 @@ survive, and the document is acyclic and serializable.
 
 ## Decision
 
-OpenQuery bundles with `dereference: false` (`src/loader/load.ts`).
+QueryFish bundles with `dereference: false` (`src/loader/load.ts`).
 
 `SchemaConverter` registers every `#/components/schemas` and `#/definitions`
 entry up front, mapping JSON pointer → emitted type name. A `$ref` to a

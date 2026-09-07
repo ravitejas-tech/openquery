@@ -4,7 +4,7 @@
  * Snapshots prove the output did not *change*; only type-checking proves it
  * *compiles*. This generates each fixture to a temporary directory, writes a
  * client stub and a tsconfig next to it, and runs `tsc --noEmit` over the
- * result. If OpenQuery ever emits TypeScript that does not build, this fails.
+ * result. If QueryFish ever emits TypeScript that does not build, this fails.
  */
 
 import { execFile } from 'node:child_process';
@@ -44,7 +44,7 @@ export const client = {
 `;
 
 async function generateAndCompile(spec: string): Promise<string> {
-  const dir = await mkdtemp(path.join(tmpdir(), 'openquery-compile-'));
+  const dir = await mkdtemp(path.join(tmpdir(), 'queryfish-compile-'));
   created.push(dir);
 
   await generate({

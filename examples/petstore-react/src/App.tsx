@@ -1,5 +1,5 @@
 /**
- * Everything below imports from `./api`, which OpenQuery generated from
+ * Everything below imports from `./api`, which QueryFish generated from
  * `openapi.yaml`. Nothing here is hand-written against the API surface.
  */
 

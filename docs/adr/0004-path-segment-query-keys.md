@@ -8,7 +8,7 @@
 Every generated query needs a `queryKey`. The choice is permanent in a way most
 API decisions aren't: the key shape appears in every `invalidateQueries`,
 `setQueryData`, and `getQueryData` call a user writes. Changing it later breaks
-code that OpenQuery never generated.
+code that QueryFish never generated.
 
 Two facts shaped the decision.
 

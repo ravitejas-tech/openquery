@@ -11,7 +11,7 @@ a library signature, a spec that broke something.
 
 ## Decision
 
-What we chose, stated plainly and in the active voice: "OpenQuery bundles specs
+What we chose, stated plainly and in the active voice: "QueryFish bundles specs
 without dereferencing."
 
 ## Consequences

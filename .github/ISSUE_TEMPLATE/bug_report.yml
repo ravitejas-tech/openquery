@@ -26,7 +26,7 @@ body:
   - type: textarea
     id: actual
     attributes:
-      label: What OpenQuery generated
+      label: What QueryFish generated
       description: Paste the generated output, or the error you got.
       render: typescript
     validations:
@@ -42,13 +42,13 @@ body:
   - type: textarea
     id: config
     attributes:
-      label: Your openquery.config.ts
+      label: Your queryfish.config.ts
       render: typescript
 
   - type: input
     id: version
     attributes:
-      label: OpenQuery version
+      label: QueryFish version
       placeholder: 0.1.0
     validations:
       required: true

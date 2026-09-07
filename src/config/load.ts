@@ -1,4 +1,4 @@
-/** Locate and load `openquery.config.{ts,mts,js,mjs,json}`. */
+/** Locate and load `queryfish.config.{ts,mts,js,mjs,json}`. */
 
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
@@ -6,15 +6,15 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createJiti } from 'jiti';
 
-import { CONFIG_DEFAULTS, type OpenQueryConfig, type ResolvedConfig } from './define.js';
-import { OpenQueryError } from '../loader/errors.js';
+import { CONFIG_DEFAULTS, type QueryFishConfig, type ResolvedConfig } from './define.js';
+import { QueryFishError } from '../loader/errors.js';
 
 const CONFIG_NAMES = [
-  'openquery.config.ts',
-  'openquery.config.mts',
-  'openquery.config.js',
-  'openquery.config.mjs',
-  'openquery.config.json',
+  'queryfish.config.ts',
+  'queryfish.config.mts',
+  'queryfish.config.js',
+  'queryfish.config.mjs',
+  'queryfish.config.json',
 ];
 
 export function findConfig(cwd: string): string | undefined {
@@ -41,7 +41,7 @@ async function importConfigFile(file: string): Promise<unknown> {
 export async function loadConfig(options: {
   cwd: string;
   configPath?: string | undefined;
-  overrides?: Partial<OpenQueryConfig>;
+  overrides?: Partial<QueryFishConfig>;
 }): Promise<{ config: ResolvedConfig; configFile?: string; root: string }> {
   const { cwd, overrides = {} } = options;
 
@@ -50,21 +50,21 @@ export async function loadConfig(options: {
     : findConfig(cwd);
 
   if (options.configPath && !existsSync(configFile!)) {
-    throw new OpenQueryError(`Config file not found: ${options.configPath}`);
+    throw new QueryFishError(`Config file not found: ${options.configPath}`);
   }
 
-  let fileConfig: Partial<OpenQueryConfig> = {};
+  let fileConfig: Partial<QueryFishConfig> = {};
   if (configFile) {
     const loaded = await importConfigFile(configFile);
     if (!loaded || typeof loaded !== 'object') {
-      throw new OpenQueryError(
+      throw new QueryFishError(
         `Config file did not export an object: ${path.relative(cwd, configFile)}`,
         {
           hint: 'Export your config as the default export, e.g. `export default defineConfig({ … })`.',
         },
       );
     }
-    fileConfig = loaded as Partial<OpenQueryConfig>;
+    fileConfig = loaded as Partial<QueryFishConfig>;
   }
 
   // Paths in a config file are relative to that file, not the cwd.
@@ -73,17 +73,17 @@ export async function loadConfig(options: {
   const merged = { ...CONFIG_DEFAULTS, ...fileConfig, ...stripUndefined(overrides) };
 
   if (!merged.input) {
-    throw new OpenQueryError('No `input` specified.', {
+    throw new QueryFishError('No `input` specified.', {
       hint: configFile
         ? 'Add `input: "./openapi.yaml"` to your config.'
-        : 'Create an openquery.config.ts, or pass --input <spec>.',
+        : 'Create a queryfish.config.ts, or pass --input <spec>.',
     });
   }
   if (!merged.output) {
-    throw new OpenQueryError('No `output` specified.', {
+    throw new QueryFishError('No `output` specified.', {
       hint: configFile
         ? 'Add `output: "./src/api"` to your config.'
-        : 'Create an openquery.config.ts, or pass --output <dir>.',
+        : 'Create a queryfish.config.ts, or pass --output <dir>.',
     });
   }
 

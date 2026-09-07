@@ -9,7 +9,7 @@ export interface PaginationConfig {
   initialPageParam?: string | number | null;
 }
 
-export interface OpenQueryConfig {
+export interface QueryFishConfig {
   /** Path or URL to the OpenAPI/Swagger document. */
   input: string;
 
@@ -20,7 +20,7 @@ export interface OpenQueryConfig {
    * Module exporting the HTTP `client` used by generated request functions.
    * Resolved relative to the project root; imported by `requests.ts`.
    *
-   * OpenQuery ships no runtime — auth, interceptors, and base URLs stay in your
+   * QueryFish ships no runtime — auth, interceptors, and base URLs stay in your
    * code. Any object with a `request({ method, url, params, data, headers })`
    * method works (axios, a fetch wrapper, ky, …).
    *
@@ -31,8 +31,8 @@ export interface OpenQueryConfig {
   /**
    * Opt in to infinite queries, keyed by path.
    *
-   * OpenAPI has no pagination standard, so OpenQuery never guesses: with no
-   * entry here (and no `x-openquery-pagination` in the spec) an endpoint is
+   * OpenAPI has no pagination standard, so QueryFish never guesses: with no
+   * entry here (and no `x-queryfish-pagination` in the spec) an endpoint is
    * emitted as a plain query. Set to `false` to suppress a spec-level opt-in.
    *
    * @example
@@ -48,15 +48,15 @@ export interface OpenQueryConfig {
 }
 
 /** Identity helper that provides type-checking and autocomplete in config files. */
-export function defineConfig(config: OpenQueryConfig): OpenQueryConfig {
+export function defineConfig(config: QueryFishConfig): QueryFishConfig {
   return config;
 }
 
-export type ResolvedConfig = Required<Omit<OpenQueryConfig, 'pagination'>> &
-  Pick<OpenQueryConfig, 'pagination'>;
+export type ResolvedConfig = Required<Omit<QueryFishConfig, 'pagination'>> &
+  Pick<QueryFishConfig, 'pagination'>;
 
 export const CONFIG_DEFAULTS = {
   client: './client',
   format: true,
   barrel: true,
-} satisfies Partial<OpenQueryConfig>;
+} satisfies Partial<QueryFishConfig>;

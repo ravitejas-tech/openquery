@@ -1,6 +1,6 @@
 # Commit convention
 
-OpenQuery uses [Conventional Commits](https://www.conventionalcommits.org/).
+QueryFish uses [Conventional Commits](https://www.conventionalcommits.org/).
 Commit messages are read far more often than they are written — usually by
 someone bisecting a regression at an inconvenient hour.
 

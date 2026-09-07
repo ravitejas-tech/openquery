@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@openquery/example-petstore-react"]
+  "ignore": ["@queryfish/example-petstore-react"]
 }

@@ -1,5 +1,5 @@
 ---
-'openquery': minor
+'queryfish': minor
 ---
 
 Initial release.
@@ -11,7 +11,7 @@ documents:
   segments so a whole resource tree can be invalidated with a prefix match
 - `createMutation` factories for everything else
 - `createInfiniteQuery` factories, opt-in per endpoint via config or an
-  `x-openquery-pagination` extension — never inferred
+  `x-queryfish-pagination` extension — never inferred
 - Full TypeScript types for parameters, request bodies, and responses,
   including recursive and mutually recursive schemas
 - CLI with `--watch`, `--dry-run`, and errors that name the failing spec location

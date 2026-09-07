@@ -57,7 +57,7 @@ export interface Param {
  * Describes how an endpoint paginates.
  *
  * Only ever set when the user opts in — either via `pagination` config or an
- * `x-openquery-pagination` extension in the spec. OpenAPI has no pagination
+ * `x-queryfish-pagination` extension in the spec. OpenAPI has no pagination
  * standard, and a wrong guess produces a hook that silently fetches forever.
  */
 export interface PaginationSpec {

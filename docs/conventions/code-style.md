@@ -18,17 +18,17 @@ solved exactly once. See [ADR 0002](../adr/0002-four-stage-pipeline-with-an-ir.m
 
 ### Never guess where OpenAPI is silent
 
-If the spec doesn't say it, OpenQuery doesn't infer it. Require an explicit
-opt-in instead — config or an `x-openquery-*` extension.
+If the spec doesn't say it, QueryFish doesn't infer it. Require an explicit
+opt-in instead — config or an `x-queryfish-*` extension.
 
 Why: wrong guesses in generated code produce runtime bugs in a file the user
 didn't write, and they compile cleanly. See
 [ADR 0005](../adr/0005-opt-in-pagination.md).
 
-### Generated code has no runtime dependency on OpenQuery
+### Generated code has no runtime dependency on QueryFish
 
 Generated output may import only `react-query-kit`,
-`@tanstack/react-query`, and the user's client module. OpenQuery is a
+`@tanstack/react-query`, and the user's client module. QueryFish is a
 `devDependency` and must stay one. See
 [ADR 0006](../adr/0006-user-supplied-http-client.md).
 
@@ -120,7 +120,7 @@ error: cannot resolve schema
   Check that the $ref target exists in components.schemas.
 ```
 
-Use `OpenQueryError` / `SpecError` with `file`, `pointer`, and `hint`. A
+Use `QueryFishError` / `SpecError` with `file`, `pointer`, and `hint`. A
 generator that fails with a bare stack trace makes the user search thousands of
 lines of YAML by hand.
 

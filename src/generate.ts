@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import * as prettier from 'prettier';
 
-import type { OpenQueryConfig } from './config/define.js';
+import type { QueryFishConfig } from './config/define.js';
 import { CONFIG_DEFAULTS } from './config/define.js';
 import { loadSpec } from './loader/load.js';
 import { buildIR } from './ir/build.js';
@@ -31,7 +31,7 @@ export interface GenerateResult {
   operationCount: number;
 }
 
-export interface GenerateOptions extends OpenQueryConfig {
+export interface GenerateOptions extends QueryFishConfig {
   /** Directory that relative paths resolve against. */
   root?: string;
   /** Compute results without writing anything. */

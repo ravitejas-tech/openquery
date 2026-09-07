@@ -31,11 +31,11 @@ export default defineConfig({
 });
 ```
 
-The contract is a minimal structural interface (`OpenQueryClient` in
+The contract is a minimal structural interface (`QueryFishClient` in
 `src/index.ts`):
 
 ```ts
-interface OpenQueryClient {
+interface QueryFishClient {
   request<T>(config: {
     method: string;
     url: string;
@@ -56,7 +56,7 @@ specifiers (`@/lib/client`) pass through untouched so path aliases work.
 
 ### What this enables
 
-- OpenQuery is a `devDependency`. Nothing it publishes ships to production.
+- QueryFish is a `devDependency`. Nothing it publishes ships to production.
 - Auth, retries, and interceptors live in user code, where they can be read,
   tested, and debugged with normal tooling.
 - Any HTTP library works — axios, fetch, ky, a corporate wrapper — with no

@@ -3,9 +3,9 @@ import { cac } from 'cac';
 
 import { loadConfig } from '../config/load.js';
 import { generate, type GenerateResult } from '../generate.js';
-import { OpenQueryError } from '../loader/errors.js';
+import { QueryFishError } from '../loader/errors.js';
 
-const cli = cac('openquery');
+const cli = cac('queryfish');
 
 // ANSI colours, disabled when not a TTY or when NO_COLOR is set.
 const useColor = process.stdout.isTTY && !process.env['NO_COLOR'];
@@ -64,11 +64,11 @@ function reportResult(
 }
 
 function reportError(error: unknown): void {
-  if (error instanceof OpenQueryError) {
+  if (error instanceof QueryFishError) {
     console.error(color.red(error.format()));
   } else if (error instanceof Error) {
     console.error(`${color.red('error:')} ${error.message}`);
-    if (process.env['OPENQUERY_DEBUG']) console.error(error.stack);
+    if (process.env['QUERYFISH_DEBUG']) console.error(error.stack);
   } else {
     console.error(`${color.red('error:')} ${String(error)}`);
   }

@@ -1,7 +1,7 @@
 /**
  * The HTTP client, written once by you.
  *
- * OpenQuery generates code that imports `client` from here — it ships no
+ * QueryFish generates code that imports `client` from here — it ships no
  * runtime of its own, so auth, interceptors, retries, and base URLs live in
  * your code where you can debug them.
  *

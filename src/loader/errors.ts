@@ -19,22 +19,22 @@ export interface ErrorLocation {
   column?: number;
 }
 
-export interface OpenQueryErrorOptions extends ErrorLocation {
+export interface QueryFishErrorOptions extends ErrorLocation {
   /** Actionable next step shown under the error. */
   hint?: string;
   cause?: unknown;
 }
 
-export class OpenQueryError extends Error {
+export class QueryFishError extends Error {
   readonly file?: string;
   readonly pointer?: string;
   readonly line?: number;
   readonly column?: number;
   readonly hint?: string;
 
-  constructor(message: string, options: OpenQueryErrorOptions = {}) {
+  constructor(message: string, options: QueryFishErrorOptions = {}) {
     super(message, options.cause !== undefined ? { cause: options.cause } : undefined);
-    this.name = 'OpenQueryError';
+    this.name = 'QueryFishError';
     if (options.file !== undefined) this.file = options.file;
     if (options.pointer !== undefined) this.pointer = options.pointer;
     if (options.line !== undefined) this.line = options.line;
@@ -59,8 +59,8 @@ export class OpenQueryError extends Error {
 }
 
 /** A spec problem reported by the parser, normalized for display. */
-export class SpecError extends OpenQueryError {
-  constructor(message: string, options: OpenQueryErrorOptions = {}) {
+export class SpecError extends QueryFishError {
+  constructor(message: string, options: QueryFishErrorOptions = {}) {
     super(message, options);
     this.name = 'SpecError';
   }

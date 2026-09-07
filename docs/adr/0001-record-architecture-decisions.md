@@ -5,7 +5,7 @@
 
 ## Context
 
-OpenQuery's v0.1 was built in a single pass, and several of its choices look
+QueryFish's v0.1 was built in a single pass, and several of its choices look
 wrong at first glance:
 
 - The loader deliberately _doesn't_ dereference `$ref`s, despite that being the
@@ -24,7 +24,7 @@ this?" needs an answer that doesn't require asking a maintainer.
 
 ## Decision
 
-OpenQuery keeps Architecture Decision Records in `docs/adr/`, following
+QueryFish keeps Architecture Decision Records in `docs/adr/`, following
 Michael Nygard's format: numbered, immutable once accepted, and superseded
 rather than edited.
 

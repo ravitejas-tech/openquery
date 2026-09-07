@@ -2,7 +2,7 @@
 
 export { defineConfig } from './config/define.js';
 export type {
-  OpenQueryConfig,
+  QueryFishConfig,
   PaginationConfig,
   ResolvedConfig,
 } from './config/define.js';
@@ -10,7 +10,7 @@ export type {
 export { generate } from './generate.js';
 export type { GenerateOptions, GenerateResult, GeneratedFile } from './generate.js';
 
-export { OpenQueryError, SpecError } from './loader/errors.js';
+export { QueryFishError, SpecError } from './loader/errors.js';
 
 // Exposed so tooling can build on the IR without re-parsing specs.
 export { buildIR } from './ir/build.js';
@@ -20,10 +20,10 @@ export type { IR, IRSchema, Operation, PaginationSpec, Param } from './ir/types.
 /**
  * Structural type a client module must satisfy.
  *
- * OpenQuery ships no runtime: you provide this, so auth, interceptors, retries,
+ * QueryFish ships no runtime: you provide this, so auth, interceptors, retries,
  * and base URLs stay in your code. axios instances satisfy it as-is.
  */
-export interface OpenQueryClient {
+export interface QueryFishClient {
   request<T>(config: {
     method: string;
     url: string;

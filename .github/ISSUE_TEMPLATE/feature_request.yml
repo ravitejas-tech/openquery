@@ -1,11 +1,11 @@
 name: Feature request
-description: Suggest something OpenQuery should do
+description: Suggest something QueryFish should do
 labels: [enhancement]
 body:
   - type: markdown
     attributes:
       value: |
-        OpenQuery deliberately does one thing well: OpenAPI → React Query Kit
+        QueryFish deliberately does one thing well: OpenAPI → React Query Kit
         factories. Proposals that fit that scope are much more likely to land —
         see the design principles in CONTRIBUTING.md.
 

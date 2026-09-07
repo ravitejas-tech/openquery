@@ -1,5 +1,5 @@
 {
-  "name": "openquery",
+  "name": "queryfish",
   "version": "0.1.0",
   "description": "OpenAPI → type-safe React Query Kit factories.",
   "keywords": [
@@ -17,7 +17,7 @@
     "node": ">=20.19.0"
   },
   "bin": {
-    "openquery": "./dist/cli/index.mjs"
+    "queryfish": "./dist/cli/index.mjs"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -74,11 +74,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ravitejas-tech/openquery.git"
+    "url": "git+https://github.com/ravitejas-tech/queryfish.git"
   },
-  "homepage": "https://github.com/ravitejas-tech/openquery#readme",
+  "homepage": "https://github.com/ravitejas-tech/queryfish#readme",
   "bugs": {
-    "url": "https://github.com/ravitejas-tech/openquery/issues"
+    "url": "https://github.com/ravitejas-tech/queryfish/issues"
   },
   "publishConfig": {
     "access": "public",

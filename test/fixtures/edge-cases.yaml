@@ -118,7 +118,7 @@ paths:
   /feed:
     get:
       operationId: listFeed
-      x-openquery-pagination:
+      x-queryfish-pagination:
         param: cursor
         nextField: nextCursor
       parameters:

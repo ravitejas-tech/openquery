@@ -160,7 +160,7 @@ describe('pagination', () => {
     expect(result.files.map((f) => f.name)).not.toContain('infiniteQueries.ts');
   });
 
-  it('honours an x-openquery-pagination extension', async () => {
+  it('honours an x-queryfish-pagination extension', async () => {
     const result = await run('edge-cases.yaml');
     const infinite = fileNamed(result, 'infiniteQueries.ts');
     expect(infinite).toBeDefined();

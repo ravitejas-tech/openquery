@@ -6,7 +6,7 @@
 ## Context
 
 Snapshot tests are the natural fit for a code generator: cheap, and they turn
-every emitter change into a readable output diff in review. OpenQuery uses them
+every emitter change into a readable output diff in review. QueryFish uses them
 heavily.
 
 They have one blind spot that matters more here than almost anywhere else. A
