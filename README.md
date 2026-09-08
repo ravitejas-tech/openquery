@@ -370,24 +370,7 @@ Real specs break naive generators. These are covered, with a
 | [Contributing](./CONTRIBUTING.md)        | Clone to merged PR                           |
 | [Conventions](./docs/conventions)        | Commits, code style, versioning              |
 
----
 
-## 🗺️ Roadmap
-
-- [x] `createQuery` and `createMutation` factories
-- [x] `createInfiniteQuery` (opt-in)
-- [x] Custom axios / fetch client support
-- [x] Watch mode
-- [x] OpenAPI 3.0, 3.1, and Swagger 2.0
-- [ ] Zod schema generation for runtime validation
-- [ ] MSW mock handler generation
-- [ ] Suspense query variants
-- [ ] Plugin system for custom output
-
-Have a use case that doesn't fit? [Open an issue](https://github.com/ravitejas-tech/queryfish/issues) —
-scope decisions are made in the open.
-
----
 
 ## 🤝 Contributing
 
