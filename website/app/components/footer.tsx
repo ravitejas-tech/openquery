@@ -120,7 +120,7 @@ export function Footer() {
                         Built for teams who&apos;d rather write features than fetch functions.
                     </p>
                     <p className='text-sm text-text-muted'>
-                        © {new Date().getFullYear()} QueryFish — MIT License
+                        © {new Date().getFullYear()} QueryFish v1.0.0 — MIT License
                     </p>
                 </div>
             </div>

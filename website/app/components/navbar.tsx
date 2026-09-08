@@ -29,6 +29,9 @@ export function Navbar() {
                             <span className='text-white'>Query</span>
                             <span className='text-brand-sky'>Fish</span>
                         </span>
+                        <span className='ml-1 rounded-full border border-brand-sky/20 bg-brand-sky/10 px-2 py-0.5 font-mono text-xs font-semibold text-brand-sky'>
+                            v1.0.0
+                        </span>
                     </Link>
 
                     {/* Desktop links — minimal style with bottom indicator */}
