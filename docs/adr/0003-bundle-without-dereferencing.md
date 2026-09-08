@@ -16,14 +16,14 @@ It fails on recursive schemas, which are ordinary — `Comment.replies`,
 Measured against `test/fixtures/edge-cases.yaml`:
 
 ```js
-const res = await bundle({ ref, config, dereference: true });
-const Comment = res.bundle.parsed.components.schemas.Comment;
-const nested = Comment.properties.replies.items;
+const res = await bundle({ ref, config, dereference: true })
+const Comment = res.bundle.parsed.components.schemas.Comment
+const nested = Comment.properties.replies.items
 
-nested === Comment; // false — a *copy*, not the same object
-nested.$ref; // undefined — the pointer is gone
-nested.properties.replies.items === nested; // true — the copy is self-referential
-JSON.stringify(res.bundle.parsed); // throws: Converting circular structure to JSON
+nested === Comment // false — a *copy*, not the same object
+nested.$ref // undefined — the pointer is gone
+nested.properties.replies.items === nested // true — the copy is self-referential
+JSON.stringify(res.bundle.parsed) // throws: Converting circular structure to JSON
 ```
 
 Two consequences, both fatal:
@@ -34,11 +34,11 @@ Two consequences, both fatal:
    components fails. The generator has no way to know the nested schema _is_
    `Comment`. The best it can do is inline one level and give up:
 
-   ```ts
-   export interface Comment {
-     replies?: { id: string; replies?: unknown }[]; // wrong
-   }
-   ```
+    ```ts
+    export interface Comment {
+        replies?: { id: string; replies?: unknown }[] // wrong
+    }
+    ```
 
 The second problem is the real one. Cycle guards stop the hang, but they can't
 recover the information that dereferencing destroyed.

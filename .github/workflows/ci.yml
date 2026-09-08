@@ -1,69 +1,69 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
+    push:
+        branches: [main]
+    pull_request:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  test:
-    name: Node ${{ matrix.node }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        node: ['20.19', '22', '24']
+    test:
+        name: Node ${{ matrix.node }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                node: ['20.19', '22', '24']
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: npm
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node }}
+                  cache: npm
 
-      - run: npm ci
+            - run: npm ci
 
-      - name: Type-check
-        run: npm run typecheck
+            - name: Type-check
+              run: npm run typecheck
 
-      - name: Lint
-        run: npm run lint
+            - name: Lint
+              run: npm run lint
 
-      - name: Check formatting
-        run: npm run format:check
+            - name: Check formatting
+              run: npm run format:check
 
-      # Includes the compile tests, which type-check generated output
-      # against the real react-query-kit.
-      - name: Test
-        run: npm test
+            # Includes the compile tests, which type-check generated output
+            # against the real react-query-kit.
+            - name: Test
+              run: npm test
 
-      - name: Build
-        run: npm run build
+            - name: Build
+              run: npm run build
 
-  example:
-    name: Example app generates reproducibly
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    example:
+        name: Example app generates reproducibly
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: npm
 
-      - run: npm ci
-      - run: npm run build
+            - run: npm ci
+            - run: npm run build
 
-      # Committed output must match a fresh run, so the example never drifts
-      # from what the generator actually produces.
-      - name: Regenerate example
-        working-directory: examples/petstore-react
-        run: node ../../dist/cli/index.mjs generate
+            # Committed output must match a fresh run, so the example never drifts
+            # from what the generator actually produces.
+            - name: Regenerate example
+              working-directory: examples/petstore-react
+              run: node ../../dist/cli/index.mjs generate
 
-      - name: Verify no drift
-        run: git diff --exit-code examples/
+            - name: Verify no drift
+              run: git diff --exit-code examples/

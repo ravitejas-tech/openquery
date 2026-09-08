@@ -22,7 +22,7 @@ users almost always want "refetch everything about this resource," which
 TanStack Query expresses as a prefix match:
 
 ```ts
-queryClient.invalidateQueries({ queryKey: ['pets'] });
+queryClient.invalidateQueries({ queryKey: ['pets'] })
 ```
 
 Whether that works at all is decided entirely by the base key.

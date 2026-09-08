@@ -2,59 +2,59 @@ name: Bug report
 description: Something generated incorrectly, or the CLI failed
 labels: [bug]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for the report. The most useful thing you can include is **the
-        smallest piece of OpenAPI that reproduces it** — a few lines of YAML
-        beats a long description, and it usually becomes a test case directly.
+    - type: markdown
+      attributes:
+          value: |
+              Thanks for the report. The most useful thing you can include is **the
+              smallest piece of OpenAPI that reproduces it** — a few lines of YAML
+              beats a long description, and it usually becomes a test case directly.
 
-  - type: textarea
-    id: spec
-    attributes:
-      label: Minimal spec
-      description: The smallest OpenAPI snippet that triggers the problem.
-      render: yaml
-      placeholder: |
-        paths:
-          /users/{id}:
-            get:
-              operationId: getUser
-    validations:
-      required: true
+    - type: textarea
+      id: spec
+      attributes:
+          label: Minimal spec
+          description: The smallest OpenAPI snippet that triggers the problem.
+          render: yaml
+          placeholder: |
+              paths:
+                /users/{id}:
+                  get:
+                    operationId: getUser
+      validations:
+          required: true
 
-  - type: textarea
-    id: actual
-    attributes:
-      label: What QueryFish generated
-      description: Paste the generated output, or the error you got.
-      render: typescript
-    validations:
-      required: true
+    - type: textarea
+      id: actual
+      attributes:
+          label: What QueryFish generated
+          description: Paste the generated output, or the error you got.
+          render: typescript
+      validations:
+          required: true
 
-  - type: textarea
-    id: expected
-    attributes:
-      label: What you expected instead
-    validations:
-      required: true
+    - type: textarea
+      id: expected
+      attributes:
+          label: What you expected instead
+      validations:
+          required: true
 
-  - type: textarea
-    id: config
-    attributes:
-      label: Your queryfish.config.ts
-      render: typescript
+    - type: textarea
+      id: config
+      attributes:
+          label: Your queryfish.config.ts
+          render: typescript
 
-  - type: input
-    id: version
-    attributes:
-      label: QueryFish version
-      placeholder: 0.1.0
-    validations:
-      required: true
+    - type: input
+      id: version
+      attributes:
+          label: QueryFish version
+          placeholder: 0.1.0
+      validations:
+          required: true
 
-  - type: input
-    id: node
-    attributes:
-      label: Node version
-      placeholder: 22.11.0
+    - type: input
+      id: node
+      attributes:
+          label: Node version
+          placeholder: 22.11.0

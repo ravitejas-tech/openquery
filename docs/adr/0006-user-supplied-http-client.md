@@ -25,10 +25,10 @@ configured:
 
 ```ts
 export default defineConfig({
-  input: './openapi.yaml',
-  output: './src/api',
-  client: './src/api/client.ts',
-});
+    input: './openapi.yaml',
+    output: './src/api',
+    client: './src/api/client.ts',
+})
 ```
 
 The contract is a minimal structural interface (`QueryFishClient` in
@@ -36,13 +36,13 @@ The contract is a minimal structural interface (`QueryFishClient` in
 
 ```ts
 interface QueryFishClient {
-  request<T>(config: {
-    method: string;
-    url: string;
-    params?: Record<string, unknown>;
-    headers?: Record<string, unknown>;
-    data?: unknown;
-  }): Promise<T>;
+    request<T>(config: {
+        method: string
+        url: string
+        params?: Record<string, unknown>
+        headers?: Record<string, unknown>
+        data?: unknown
+    }): Promise<T>
 }
 ```
 

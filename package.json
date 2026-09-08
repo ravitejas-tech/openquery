@@ -1,87 +1,87 @@
 {
-  "name": "queryfish",
-  "version": "0.1.0",
-  "description": "OpenAPI → type-safe React Query Kit factories.",
-  "keywords": [
-    "openapi",
-    "swagger",
-    "react-query",
-    "react-query-kit",
-    "tanstack-query",
-    "codegen",
-    "typescript"
-  ],
-  "license": "MIT",
-  "type": "module",
-  "engines": {
-    "node": ">=20.19.0"
-  },
-  "bin": {
-    "queryfish": "./dist/cli/index.mjs"
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+    "name": "queryfish",
+    "version": "0.1.0",
+    "description": "OpenAPI → type-safe React Query Kit factories.",
+    "keywords": [
+        "openapi",
+        "swagger",
+        "react-query",
+        "react-query-kit",
+        "tanstack-query",
+        "codegen",
+        "typescript"
+    ],
+    "license": "MIT",
+    "type": "module",
+    "engines": {
+        "node": ">=20.19.0"
     },
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "release": "changeset publish"
-  },
-  "dependencies": {
-    "@redocly/openapi-core": "^2.51.2",
-    "cac": "^7.0.0",
-    "chokidar": "^5.0.0",
-    "jiti": "^2.7.0",
-    "prettier": "^3.9.6"
-  },
-  "devDependencies": {
-    "@changesets/cli": "^3.0.2",
-    "@eslint/js": "^10.0.1",
-    "@tanstack/react-query": "^5.102.8",
-    "@types/node": "^26.5.0",
-    "@types/react": "^19.2.18",
-    "eslint": "^10.10.0",
-    "react": "^19.2.8",
-    "react-query-kit": "^3.3.4",
-    "tsdown": "^0.23.0",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.69.0",
-    "vitest": "^5.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ravitejas-tech/queryfish.git"
-  },
-  "homepage": "https://github.com/ravitejas-tech/queryfish#readme",
-  "bugs": {
-    "url": "https://github.com/ravitejas-tech/queryfish/issues"
-  },
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  }
+    "bin": {
+        "queryfish": "./dist/cli/index.mjs"
+    },
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.mts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.mts",
+                "default": "./dist/index.mjs"
+            },
+            "require": {
+                "types": "./dist/index.d.cts",
+                "default": "./dist/index.cjs"
+            }
+        },
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "tsdown",
+        "dev": "tsdown --watch",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint .",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "release": "changeset publish"
+    },
+    "dependencies": {
+        "@redocly/openapi-core": "^2.51.2",
+        "cac": "^7.0.0",
+        "chokidar": "^5.0.0",
+        "jiti": "^2.7.0",
+        "prettier": "^3.9.6"
+    },
+    "devDependencies": {
+        "@changesets/cli": "^3.0.2",
+        "@eslint/js": "^10.0.1",
+        "@tanstack/react-query": "^5.102.8",
+        "@types/node": "^26.5.0",
+        "@types/react": "^19.2.18",
+        "eslint": "^10.10.0",
+        "react": "^19.2.8",
+        "react-query-kit": "^3.3.4",
+        "tsdown": "^0.23.0",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.69.0",
+        "vitest": "^5.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ravitejas-tech/queryfish.git"
+    },
+    "homepage": "https://github.com/ravitejas-tech/queryfish#readme",
+    "bugs": {
+        "url": "https://github.com/ravitejas-tech/queryfish/issues"
+    },
+    "publishConfig": {
+        "access": "public",
+        "provenance": true
+    }
 }

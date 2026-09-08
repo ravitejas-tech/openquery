@@ -48,9 +48,9 @@ dereferenced document. Parsing is delegated to
 [`@redocly/openapi-core`](https://www.npmjs.com/package/@redocly/openapi-core):
 
 ```ts
-const config = await createConfig({ extends: ['minimal'] });
-const results = await bundle({ ref, config, dereference: true });
-const doc = results.bundle.parsed;
+const config = await createConfig({ extends: ['minimal'] })
+const results = await bundle({ ref, config, dereference: true })
+const doc = results.bundle.parsed
 ```
 
 Redocly handles OpenAPI 3.0, 3.1, **and Swagger 2.0**, and resolves `$ref` more
@@ -142,22 +142,22 @@ Interfaces, enums, and unions from component schemas, plus per-operation
 Plain async functions — no React, no hooks, usable from anywhere:
 
 ```ts
-import { client } from '../client';
+import { client } from '../client'
 
 export const getUser = (variables: GetUserVariables) =>
-  client.request<GetUserResponse>({
-    method: 'GET',
-    url: `/users/${variables.id}`,
-  });
+    client.request<GetUserResponse>({
+        method: 'GET',
+        url: `/users/${variables.id}`,
+    })
 ```
 
 ### `queries.ts`
 
 ```ts
 export const useGetUser = createQuery<GetUserResponse, GetUserVariables>({
-  queryKey: ['users', '{id}'],
-  fetcher: getUser,
-});
+    queryKey: ['users', '{id}'],
+    fetcher: getUser,
+})
 ```
 
 ### `mutations.ts`
@@ -198,16 +198,16 @@ The config names a module path; generated requests import from it:
 ```ts
 // queryfish.config.ts
 export default defineConfig({
-  input: './openapi.yaml',
-  output: './src/api',
-  client: './src/api/client.ts',
-});
+    input: './openapi.yaml',
+    output: './src/api',
+    client: './src/api/client.ts',
+})
 ```
 
 ```ts
 // src/api/client.ts — you write this once
-import axios from 'axios';
-export const client = axios.create({ baseURL: '/api' });
+import axios from 'axios'
+export const client = axios.create({ baseURL: '/api' })
 ```
 
 Interceptors, auth, retries, and base URLs stay in your code, where you can debug
@@ -221,7 +221,7 @@ drifting into an axios-shaped hole.
 The key mirrors the URL structure:
 
 ```ts
-queryKey: ['users', '{id}'];
+queryKey: ['users', '{id}']
 ```
 
 `react-query-kit` **automatically appends variables as the last element**, so the
@@ -233,7 +233,7 @@ invalidation**, the most common React Query operation there is:
 
 ```ts
 // invalidate every /users/* query at once
-queryClient.invalidateQueries({ queryKey: ['users'] });
+queryClient.invalidateQueries({ queryKey: ['users'] })
 ```
 
 With operation-name keys (`['getUser']`), every endpoint is an island and you have to
@@ -258,8 +258,8 @@ or in the spec itself:
 
 ```yaml
 x-queryfish-pagination:
-  param: cursor
-  nextField: nextCursor
+    param: cursor
+    nextField: nextCursor
 ```
 
 When opted in, the cursor parameter is removed from the variables type and injected

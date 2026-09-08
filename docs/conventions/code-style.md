@@ -46,11 +46,11 @@ returns `T | undefined`. Handle it rather than asserting it away:
 
 ```ts
 // Prefer
-const first = errors[0];
-if (first) throw new SpecError(String(first.message));
+const first = errors[0]
+if (first) throw new SpecError(String(first.message))
 
 // Over
-throw new SpecError(String(errors[0]!.message));
+throw new SpecError(String(errors[0]!.message))
 ```
 
 **`any` is allowed only for raw spec data.** The OpenAPI document is untyped by
@@ -105,7 +105,7 @@ that's the bug.
 _user's_ Prettier config, so quote style varies. Match either:
 
 ```ts
-expect(queries).toMatch(/queryKey: \['pets'\]|queryKey: \["pets"\]/);
+expect(queries).toMatch(/queryKey: \['pets'\]|queryKey: \["pets"\]/)
 ```
 
 ## Errors

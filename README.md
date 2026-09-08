@@ -66,9 +66,9 @@ code:
 
 ```ts
 // src/api/client.ts
-import axios from 'axios';
+import axios from 'axios'
 
-export const client = axios.create({ baseURL: '/api' });
+export const client = axios.create({ baseURL: '/api' })
 ```
 
 <sub>An axios instance works as-is. Prefer `fetch`? See the
@@ -79,13 +79,13 @@ dependencies.</sub>
 
 ```ts
 // queryfish.config.ts
-import { defineConfig } from 'queryfish';
+import { defineConfig } from 'queryfish'
 
 export default defineConfig({
-  input: './openapi.yaml', // path or URL
-  output: './src/api',
-  client: './src/api/client.ts',
-});
+    input: './openapi.yaml', // path or URL
+    output: './src/api',
+    client: './src/api/client.ts',
+})
 ```
 
 **4. Generate**
@@ -106,14 +106,14 @@ npx queryfish generate
 **5. Use it**
 
 ```tsx
-import { useGetPet } from './api/queries';
-import { useCreatePet } from './api/mutations';
+import { useGetPet } from './api/queries'
+import { useCreatePet } from './api/mutations'
 
 function Pet({ petId }: { petId: string }) {
-  const { data, isPending } = useGetPet({ variables: { petId } });
+    const { data, isPending } = useGetPet({ variables: { petId } })
 
-  if (isPending) return <Spinner />;
-  return <h1>{data.name}</h1>; // data is `Pet`, fully typed
+    if (isPending) return <Spinner />
+    return <h1>{data.name}</h1> // data is `Pet`, fully typed
 }
 ```
 
@@ -125,20 +125,20 @@ Give it a spec:
 
 ```yaml
 paths:
-  /pets/{petId}:
-    get:
-      operationId: getPet
-      summary: Get a pet by ID
-      parameters:
-        - name: petId
-          in: path
-          required: true
-          schema: { type: string }
-      responses:
-        '200':
-          content:
-            application/json:
-              schema: { $ref: '#/components/schemas/Pet' }
+    /pets/{petId}:
+        get:
+            operationId: getPet
+            summary: Get a pet by ID
+            parameters:
+                - name: petId
+                  in: path
+                  required: true
+                  schema: { type: string }
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema: { $ref: '#/components/schemas/Pet' }
 ```
 
 Get back four files of ordinary, readable TypeScript:
@@ -150,16 +150,16 @@ Get back four files of ordinary, readable TypeScript:
 
 ```ts
 export interface Pet {
-  id: string;
-  name: string;
-  tag?: string;
+    id: string
+    name: string
+    tag?: string
 }
 
 export type GetPetVariables = {
-  petId: string;
-};
+    petId: string
+}
 
-export type GetPetResponse = Pet;
+export type GetPetResponse = Pet
 ```
 
 </td><td width="50%">
@@ -167,13 +167,13 @@ export type GetPetResponse = Pet;
 **`requests.ts`**
 
 ```ts
-import { client } from '../client';
+import { client } from '../client'
 
 export const getPet = (variables: GetPetVariables) =>
-  client.request<GetPetResponse>({
-    method: 'GET',
-    url: `/pets/${variables.petId}`,
-  });
+    client.request<GetPetResponse>({
+        method: 'GET',
+        url: `/pets/${variables.petId}`,
+    })
 ```
 
 </td></tr>
@@ -184,9 +184,9 @@ export const getPet = (variables: GetPetVariables) =>
 ```ts
 /** Get a pet by ID */
 export const useGetPet = createQuery<GetPetResponse, GetPetVariables>({
-  queryKey: ['pets', '{petId}'],
-  fetcher: getPet,
-});
+    queryKey: ['pets', '{petId}'],
+    fetcher: getPet,
+})
 ```
 
 </td><td>
@@ -196,8 +196,8 @@ export const useGetPet = createQuery<GetPetResponse, GetPetVariables>({
 ```ts
 /** Create a pet */
 export const useCreatePet = createMutation<CreatePetResponse, CreatePetVariables>({
-  mutationFn: createPet,
-});
+    mutationFn: createPet,
+})
 ```
 
 </td></tr>
@@ -216,7 +216,7 @@ about a resource:
 
 ```ts
 // After creating, updating, or deleting a pet:
-queryClient.invalidateQueries({ queryKey: ['pets'] });
+queryClient.invalidateQueries({ queryKey: ['pets'] })
 // ↑ refetches /pets, /pets/{petId}, /pets/{petId}/toys — all of it
 ```
 
@@ -241,22 +241,22 @@ or in the spec itself:
 
 ```yaml
 x-queryfish-pagination:
-  param: cursor
-  nextField: nextCursor
+    param: cursor
+    nextField: nextCursor
 ```
 
 ```ts
 export const useListPetsInfinite = createInfiniteQuery<
-  ListPetsResponse,
-  Omit<ListPetsVariables, 'cursor'>, // ← cursor comes from pageParam
-  Error,
-  string | undefined
+    ListPetsResponse,
+    Omit<ListPetsVariables, 'cursor'>, // ← cursor comes from pageParam
+    Error,
+    string | undefined
 >({
-  queryKey: ['pets'],
-  fetcher: (variables, { pageParam }) => listPets({ ...variables, cursor: pageParam }),
-  getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
-  initialPageParam: undefined,
-});
+    queryKey: ['pets'],
+    fetcher: (variables, { pageParam }) => listPets({ ...variables, cursor: pageParam }),
+    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
+    initialPageParam: undefined,
+})
 ```
 
 Opt in to nothing and `infiniteQueries.ts` is never written at all.
@@ -267,29 +267,29 @@ Opt in to nothing and `infiniteQueries.ts` is never written at all.
 ## ⚙️ Configuration
 
 ```ts
-import { defineConfig } from 'queryfish';
+import { defineConfig } from 'queryfish'
 
 export default defineConfig({
-  /** Path or URL to your OpenAPI/Swagger document. Required. */
-  input: './openapi.yaml',
+    /** Path or URL to your OpenAPI/Swagger document. Required. */
+    input: './openapi.yaml',
 
-  /** Directory for generated files. Required. */
-  output: './src/api',
+    /** Directory for generated files. Required. */
+    output: './src/api',
 
-  /** Module exporting your HTTP `client`. Default: './client' */
-  client: './src/api/client.ts',
+    /** Module exporting your HTTP `client`. Default: './client' */
+    client: './src/api/client.ts',
 
-  /** Opt in to infinite queries, keyed by path. Default: none. */
-  pagination: {
-    '/pets': { param: 'cursor', nextField: 'nextCursor' },
-  },
+    /** Opt in to infinite queries, keyed by path. Default: none. */
+    pagination: {
+        '/pets': { param: 'cursor', nextField: 'nextCursor' },
+    },
 
-  /** Format output with your Prettier config. Default: true */
-  format: true,
+    /** Format output with your Prettier config. Default: true */
+    format: true,
 
-  /** Emit a barrel index.ts. Default: true */
-  barrel: true,
-});
+    /** Emit a barrel index.ts. Default: true */
+    barrel: true,
+})
 ```
 
 Config files may be `.ts`, `.mts`, `.js`, `.mjs`, or `.json`.

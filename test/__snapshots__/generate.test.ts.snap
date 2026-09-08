@@ -7,11 +7,11 @@ exports[`edge cases > matches the snapshot > index.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-export * from './types.js';
-export * from './requests.js';
-export * from './queries.js';
-export * from './mutations.js';
-export * from './infiniteQueries.js';
+export * from './types.js'
+export * from './requests.js'
+export * from './queries.js'
+export * from './mutations.js'
+export * from './infiniteQueries.js'
 "
 `;
 
@@ -22,24 +22,24 @@ exports[`edge cases > matches the snapshot > infiniteQueries.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-import { createInfiniteQuery } from 'react-query-kit';
-import { listFeed } from './requests.js';
-import type { ListFeedVariables, ListFeedResponse } from './types.js';
+import { createInfiniteQuery } from 'react-query-kit'
+import { listFeed } from './requests.js'
+import type { ListFeedVariables, ListFeedResponse } from './types.js'
 
 /**
  * \`GET /feed\`
  */
 export const useListFeedInfinite = createInfiniteQuery<
-  ListFeedResponse,
-  Omit<ListFeedVariables, 'cursor'>,
-  Error,
-  string | undefined
+    ListFeedResponse,
+    Omit<ListFeedVariables, 'cursor'>,
+    Error,
+    string | undefined
 >({
-  queryKey: ['feed'],
-  fetcher: (variables, { pageParam }) => listFeed({ ...variables, cursor: pageParam }),
-  getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
-  initialPageParam: undefined,
-});
+    queryKey: ['feed'],
+    fetcher: (variables, { pageParam }) => listFeed({ ...variables, cursor: pageParam }),
+    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
+    initialPageParam: undefined,
+})
 "
 `;
 
@@ -50,21 +50,16 @@ exports[`edge cases > matches the snapshot > mutations.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-import { createMutation } from 'react-query-kit';
-import { ping, createComposed } from './requests.js';
-import type {
-  PingVariables,
-  PingResponse,
-  CreateComposedVariables,
-  CreateComposedResponse,
-} from './types.js';
+import { createMutation } from 'react-query-kit'
+import { ping, createComposed } from './requests.js'
+import type { PingVariables, PingResponse, CreateComposedVariables, CreateComposedResponse } from './types.js'
 
 /**
  * \`POST /ping\`
  */
 export const usePing = createMutation<PingResponse, void>({
-  mutationFn: () => ping(),
-});
+    mutationFn: () => ping(),
+})
 
 /**
  * \`POST /composed\`
@@ -73,12 +68,9 @@ export const usePing = createMutation<PingResponse, void>({
  *
  * @deprecated
  */
-export const useCreateComposed = createMutation<
-  CreateComposedResponse,
-  CreateComposedVariables
->({
-  mutationFn: createComposed,
-});
+export const useCreateComposed = createMutation<CreateComposedResponse, CreateComposedVariables>({
+    mutationFn: createComposed,
+})
 "
 `;
 
@@ -89,80 +81,73 @@ exports[`edge cases > matches the snapshot > queries.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-import { createQuery } from 'react-query-kit';
-import {
-  listComments,
-  getWidgetsByWidgetIdParts,
-  duplicated,
-  duplicated2,
-  delete_,
-  oddParams,
-} from './requests.js';
+import { createQuery } from 'react-query-kit'
+import { listComments, getWidgetsByWidgetIdParts, duplicated, duplicated2, delete_, oddParams } from './requests.js'
 import type {
-  ListCommentsVariables,
-  ListCommentsResponse,
-  GetWidgetsByWidgetIdPartsVariables,
-  GetWidgetsByWidgetIdPartsResponse,
-  DuplicatedVariables,
-  DuplicatedResponse,
-  Duplicated2Variables,
-  Duplicated2Response,
-  DeleteVariables,
-  DeleteResponse,
-  OddParamsVariables,
-  OddParamsResponse,
-} from './types.js';
+    ListCommentsVariables,
+    ListCommentsResponse,
+    GetWidgetsByWidgetIdPartsVariables,
+    GetWidgetsByWidgetIdPartsResponse,
+    DuplicatedVariables,
+    DuplicatedResponse,
+    Duplicated2Variables,
+    Duplicated2Response,
+    DeleteVariables,
+    DeleteResponse,
+    OddParamsVariables,
+    OddParamsResponse,
+} from './types.js'
 
 /**
  * List comments
  */
 export const useListComments = createQuery<ListCommentsResponse, void>({
-  queryKey: ['comments'],
-  fetcher: () => listComments(),
-});
+    queryKey: ['comments'],
+    fetcher: () => listComments(),
+})
 
 /**
  * \`GET /widgets/{widgetId}/parts\`
  */
 export const useGetWidgetsByWidgetIdParts = createQuery<
-  GetWidgetsByWidgetIdPartsResponse,
-  GetWidgetsByWidgetIdPartsVariables
+    GetWidgetsByWidgetIdPartsResponse,
+    GetWidgetsByWidgetIdPartsVariables
 >({
-  queryKey: ['widgets', '{widgetId}', 'parts'],
-  fetcher: getWidgetsByWidgetIdParts,
-});
+    queryKey: ['widgets', '{widgetId}', 'parts'],
+    fetcher: getWidgetsByWidgetIdParts,
+})
 
 /**
  * \`GET /dupes/a\`
  */
 export const useDuplicated = createQuery<DuplicatedResponse, void>({
-  queryKey: ['dupes', 'a'],
-  fetcher: () => duplicated(),
-});
+    queryKey: ['dupes', 'a'],
+    fetcher: () => duplicated(),
+})
 
 /**
  * \`GET /dupes/b\`
  */
 export const useDuplicated2 = createQuery<Duplicated2Response, void>({
-  queryKey: ['dupes', 'b'],
-  fetcher: () => duplicated2(),
-});
+    queryKey: ['dupes', 'b'],
+    fetcher: () => duplicated2(),
+})
 
 /**
  * \`GET /reserved\`
  */
 export const useDelete = createQuery<DeleteResponse, void>({
-  queryKey: ['reserved'],
-  fetcher: () => delete_(),
-});
+    queryKey: ['reserved'],
+    fetcher: () => delete_(),
+})
 
 /**
  * \`GET /odd-params\`
  */
 export const useOddParams = createQuery<OddParamsResponse, OddParamsVariables>({
-  queryKey: ['odd-params'],
-  fetcher: oddParams,
-});
+    queryKey: ['odd-params'],
+    fetcher: oddParams,
+})
 "
 `;
 
@@ -173,98 +158,96 @@ exports[`edge cases > matches the snapshot > requests.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-import { client } from '../../client';
+import { client } from '../../client'
 import type {
-  ListCommentsVariables,
-  ListCommentsResponse,
-  GetWidgetsByWidgetIdPartsVariables,
-  GetWidgetsByWidgetIdPartsResponse,
-  DuplicatedVariables,
-  DuplicatedResponse,
-  Duplicated2Variables,
-  Duplicated2Response,
-  DeleteVariables,
-  DeleteResponse,
-  PingVariables,
-  PingResponse,
-  OddParamsVariables,
-  OddParamsResponse,
-  CreateComposedVariables,
-  CreateComposedResponse,
-  ListFeedVariables,
-  ListFeedResponse,
-} from './types.js';
+    ListCommentsVariables,
+    ListCommentsResponse,
+    GetWidgetsByWidgetIdPartsVariables,
+    GetWidgetsByWidgetIdPartsResponse,
+    DuplicatedVariables,
+    DuplicatedResponse,
+    Duplicated2Variables,
+    Duplicated2Response,
+    DeleteVariables,
+    DeleteResponse,
+    PingVariables,
+    PingResponse,
+    OddParamsVariables,
+    OddParamsResponse,
+    CreateComposedVariables,
+    CreateComposedResponse,
+    ListFeedVariables,
+    ListFeedResponse,
+} from './types.js'
 
 /**
  * List comments
  */
 export const listComments = () =>
-  client.request<ListCommentsResponse>({
-    method: 'GET',
-    url: '/comments',
-  });
+    client.request<ListCommentsResponse>({
+        method: 'GET',
+        url: '/comments',
+    })
 
 /**
  * \`GET /widgets/{widgetId}/parts\`
  */
-export const getWidgetsByWidgetIdParts = (
-  variables: GetWidgetsByWidgetIdPartsVariables,
-) =>
-  client.request<GetWidgetsByWidgetIdPartsResponse>({
-    method: 'GET',
-    url: \`/widgets/\${variables.widgetId}/parts\`,
-  });
+export const getWidgetsByWidgetIdParts = (variables: GetWidgetsByWidgetIdPartsVariables) =>
+    client.request<GetWidgetsByWidgetIdPartsResponse>({
+        method: 'GET',
+        url: \`/widgets/\${variables.widgetId}/parts\`,
+    })
 
 /**
  * \`GET /dupes/a\`
  */
 export const duplicated = () =>
-  client.request<DuplicatedResponse>({
-    method: 'GET',
-    url: '/dupes/a',
-  });
+    client.request<DuplicatedResponse>({
+        method: 'GET',
+        url: '/dupes/a',
+    })
 
 /**
  * \`GET /dupes/b\`
  */
 export const duplicated2 = () =>
-  client.request<Duplicated2Response>({
-    method: 'GET',
-    url: '/dupes/b',
-  });
+    client.request<Duplicated2Response>({
+        method: 'GET',
+        url: '/dupes/b',
+    })
 
 /**
  * \`GET /reserved\`
  */
 export const delete_ = () =>
-  client.request<DeleteResponse>({
-    method: 'GET',
-    url: '/reserved',
-  });
+    client.request<DeleteResponse>({
+        method: 'GET',
+        url: '/reserved',
+    })
 
 /**
  * \`POST /ping\`
  */
 export const ping = () =>
-  client.request<PingResponse>({
-    method: 'POST',
-    url: '/ping',
-  });
+    client.request<PingResponse>({
+        method: 'POST',
+        url: '/ping',
+    })
 
 /**
  * \`GET /odd-params\`
  */
 export const oddParams = (variables: OddParamsVariables) =>
-  client.request<OddParamsResponse>({
-    method: 'GET',
-    url: '/odd-params',
-    params: {
-      'filter[status]': variables['filter[status]'],
-    },
-    headers: {
-      'X-Request-Id': variables['X-Request-Id'],
-    },
-  });
+    client.request<OddParamsResponse>({
+        method: 'GET',
+        url: '/odd-params',
+        params: {
+            'filter[status]': variables['filter[status]'],
+        },
+        headers: {
+            'X-Request-Id': variables['X-Request-Id'],
+        },
+    })
 
 /**
  * \`POST /composed\`
@@ -274,24 +257,24 @@ export const oddParams = (variables: OddParamsVariables) =>
  * @deprecated
  */
 export const createComposed = (variables: CreateComposedVariables) =>
-  client.request<CreateComposedResponse>({
-    method: 'POST',
-    url: '/composed',
-    data: variables.body,
-  });
+    client.request<CreateComposedResponse>({
+        method: 'POST',
+        url: '/composed',
+        data: variables.body,
+    })
 
 /**
  * \`GET /feed\`
  */
 export const listFeed = (variables: ListFeedVariables) =>
-  client.request<ListFeedResponse>({
-    method: 'GET',
-    url: '/feed',
-    params: {
-      cursor: variables.cursor,
-      limit: variables.limit,
-    },
-  });
+    client.request<ListFeedResponse>({
+        method: 'GET',
+        url: '/feed',
+        params: {
+            cursor: variables.cursor,
+            limit: variables.limit,
+        },
+    })
 "
 `;
 
@@ -303,104 +286,104 @@ exports[`edge cases > matches the snapshot > types.ts 1`] = `
  */
 
 export interface Comment {
-  id: string;
-  body?: string;
-  replies?: Comment[];
+    id: string
+    body?: string
+    replies?: Comment[]
 }
 
 export interface Node {
-  edge?: Edge;
+    edge?: Edge
 }
 
 export interface Edge {
-  node?: Node;
+    node?: Node
 }
 
 export interface Base {
-  kind: 'alpha' | 'beta' | 'gamma';
-  count?: number;
-  tags?: Record<string, string>;
+    kind: 'alpha' | 'beta' | 'gamma'
+    count?: number
+    tags?: Record<string, string>
 }
 
 export type CreateComposedBody = Base & {
-  extra?: string | null;
-};
+    extra?: string | null
+}
 
 /**
  * Variables for \`GET /comments\`.
  */
-export type ListCommentsVariables = void;
+export type ListCommentsVariables = void
 
-export type ListCommentsResponse = Comment[];
+export type ListCommentsResponse = Comment[]
 
 /**
  * Variables for \`GET /widgets/{widgetId}/parts\`.
  */
 export type GetWidgetsByWidgetIdPartsVariables = {
-  widgetId: string;
-};
+    widgetId: string
+}
 
-export type GetWidgetsByWidgetIdPartsResponse = string[];
+export type GetWidgetsByWidgetIdPartsResponse = string[]
 
 /**
  * Variables for \`GET /dupes/a\`.
  */
-export type DuplicatedVariables = void;
+export type DuplicatedVariables = void
 
-export type DuplicatedResponse = string;
+export type DuplicatedResponse = string
 
 /**
  * Variables for \`GET /dupes/b\`.
  */
-export type Duplicated2Variables = void;
+export type Duplicated2Variables = void
 
-export type Duplicated2Response = number;
+export type Duplicated2Response = number
 
 /**
  * Variables for \`GET /reserved\`.
  */
-export type DeleteVariables = void;
+export type DeleteVariables = void
 
-export type DeleteResponse = boolean;
+export type DeleteResponse = boolean
 
 /**
  * Variables for \`POST /ping\`.
  */
-export type PingVariables = void;
+export type PingVariables = void
 
-export type PingResponse = void;
+export type PingResponse = void
 
 /**
  * Variables for \`GET /odd-params\`.
  */
 export type OddParamsVariables = {
-  'filter[status]'?: string;
-  'X-Request-Id'?: string;
-};
+    'filter[status]'?: string
+    'X-Request-Id'?: string
+}
 
-export type OddParamsResponse = Record<string, unknown>;
+export type OddParamsResponse = Record<string, unknown>
 
 /**
  * Variables for \`POST /composed\`.
  */
 export type CreateComposedVariables = {
-  body: CreateComposedBody;
-};
+    body: CreateComposedBody
+}
 
-export type CreateComposedResponse = Base | string;
+export type CreateComposedResponse = Base | string
 
 /**
  * Variables for \`GET /feed\`.
  */
 export type ListFeedVariables = {
-  cursor?: string;
-  limit?: number;
-};
+    cursor?: string
+    limit?: number
+}
 
 export type ListFeedResponse = {
-  items?: Comment[];
-  nextCursor?: string | null;
-};
+    items?: Comment[]
+    nextCursor?: string | null
+}
 "
 `;
 
@@ -411,10 +394,10 @@ exports[`petstore > matches the snapshot > index.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-export * from './types.js';
-export * from './requests.js';
-export * from './queries.js';
-export * from './mutations.js';
+export * from './types.js'
+export * from './requests.js'
+export * from './queries.js'
+export * from './mutations.js'
 "
 `;
 
@@ -425,37 +408,37 @@ exports[`petstore > matches the snapshot > mutations.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-import { createMutation } from 'react-query-kit';
-import { createPet, updatePet, deletePet } from './requests.js';
+import { createMutation } from 'react-query-kit'
+import { createPet, updatePet, deletePet } from './requests.js'
 import type {
-  CreatePetVariables,
-  CreatePetResponse,
-  UpdatePetVariables,
-  UpdatePetResponse,
-  DeletePetVariables,
-  DeletePetResponse,
-} from './types.js';
+    CreatePetVariables,
+    CreatePetResponse,
+    UpdatePetVariables,
+    UpdatePetResponse,
+    DeletePetVariables,
+    DeletePetResponse,
+} from './types.js'
 
 /**
  * Create a pet
  */
 export const useCreatePet = createMutation<CreatePetResponse, CreatePetVariables>({
-  mutationFn: createPet,
-});
+    mutationFn: createPet,
+})
 
 /**
  * Update a pet
  */
 export const useUpdatePet = createMutation<UpdatePetResponse, UpdatePetVariables>({
-  mutationFn: updatePet,
-});
+    mutationFn: updatePet,
+})
 
 /**
  * Delete a pet
  */
 export const useDeletePet = createMutation<DeletePetResponse, DeletePetVariables>({
-  mutationFn: deletePet,
-});
+    mutationFn: deletePet,
+})
 "
 `;
 
@@ -466,43 +449,40 @@ exports[`petstore > matches the snapshot > queries.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-import { createQuery } from 'react-query-kit';
-import { listPets, getPet, listOwnerPets } from './requests.js';
+import { createQuery } from 'react-query-kit'
+import { listPets, getPet, listOwnerPets } from './requests.js'
 import type {
-  ListPetsVariables,
-  ListPetsResponse,
-  GetPetVariables,
-  GetPetResponse,
-  ListOwnerPetsVariables,
-  ListOwnerPetsResponse,
-} from './types.js';
+    ListPetsVariables,
+    ListPetsResponse,
+    GetPetVariables,
+    GetPetResponse,
+    ListOwnerPetsVariables,
+    ListOwnerPetsResponse,
+} from './types.js'
 
 /**
  * List all pets
  */
 export const useListPets = createQuery<ListPetsResponse, ListPetsVariables>({
-  queryKey: ['pets'],
-  fetcher: listPets,
-});
+    queryKey: ['pets'],
+    fetcher: listPets,
+})
 
 /**
  * Get a pet by ID
  */
 export const useGetPet = createQuery<GetPetResponse, GetPetVariables>({
-  queryKey: ['pets', '{petId}'],
-  fetcher: getPet,
-});
+    queryKey: ['pets', '{petId}'],
+    fetcher: getPet,
+})
 
 /**
  * List an owner's pets
  */
-export const useListOwnerPets = createQuery<
-  ListOwnerPetsResponse,
-  ListOwnerPetsVariables
->({
-  queryKey: ['owners', '{ownerId}', 'pets'],
-  fetcher: listOwnerPets,
-});
+export const useListOwnerPets = createQuery<ListOwnerPetsResponse, ListOwnerPetsVariables>({
+    queryKey: ['owners', '{ownerId}', 'pets'],
+    fetcher: listOwnerPets,
+})
 "
 `;
 
@@ -513,81 +493,81 @@ exports[`petstore > matches the snapshot > requests.ts 1`] = `
  * Re-run \`npx queryfish generate\` after changing your OpenAPI document.
  */
 
-import { client } from '../../client';
+import { client } from '../../client'
 import type {
-  ListPetsVariables,
-  ListPetsResponse,
-  CreatePetVariables,
-  CreatePetResponse,
-  GetPetVariables,
-  GetPetResponse,
-  UpdatePetVariables,
-  UpdatePetResponse,
-  DeletePetVariables,
-  DeletePetResponse,
-  ListOwnerPetsVariables,
-  ListOwnerPetsResponse,
-} from './types.js';
+    ListPetsVariables,
+    ListPetsResponse,
+    CreatePetVariables,
+    CreatePetResponse,
+    GetPetVariables,
+    GetPetResponse,
+    UpdatePetVariables,
+    UpdatePetResponse,
+    DeletePetVariables,
+    DeletePetResponse,
+    ListOwnerPetsVariables,
+    ListOwnerPetsResponse,
+} from './types.js'
 
 /**
  * List all pets
  */
 export const listPets = (variables: ListPetsVariables) =>
-  client.request<ListPetsResponse>({
-    method: 'GET',
-    url: '/pets',
-    params: {
-      limit: variables.limit,
-      status: variables.status,
-    },
-  });
+    client.request<ListPetsResponse>({
+        method: 'GET',
+        url: '/pets',
+        params: {
+            limit: variables.limit,
+            status: variables.status,
+        },
+    })
 
 /**
  * Create a pet
  */
 export const createPet = (variables: CreatePetVariables) =>
-  client.request<CreatePetResponse>({
-    method: 'POST',
-    url: '/pets',
-    data: variables.body,
-  });
+    client.request<CreatePetResponse>({
+        method: 'POST',
+        url: '/pets',
+        data: variables.body,
+    })
 
 /**
  * Get a pet by ID
  */
 export const getPet = (variables: GetPetVariables) =>
-  client.request<GetPetResponse>({
-    method: 'GET',
-    url: \`/pets/\${variables.petId}\`,
-  });
+    client.request<GetPetResponse>({
+        method: 'GET',
+        url: \`/pets/\${variables.petId}\`,
+    })
 
 /**
  * Update a pet
  */
 export const updatePet = (variables: UpdatePetVariables) =>
-  client.request<UpdatePetResponse>({
-    method: 'PUT',
-    url: \`/pets/\${variables.petId}\`,
-    data: variables.body,
-  });
+    client.request<UpdatePetResponse>({
+        method: 'PUT',
+        url: \`/pets/\${variables.petId}\`,
+        data: variables.body,
+    })
 
 /**
  * Delete a pet
  */
 export const deletePet = (variables: DeletePetVariables) =>
-  client.request<DeletePetResponse>({
-    method: 'DELETE',
-    url: \`/pets/\${variables.petId}\`,
-  });
+    client.request<DeletePetResponse>({
+        method: 'DELETE',
+        url: \`/pets/\${variables.petId}\`,
+    })
 
 /**
  * List an owner's pets
  */
 export const listOwnerPets = (variables: ListOwnerPetsVariables) =>
-  client.request<ListOwnerPetsResponse>({
-    method: 'GET',
-    url: \`/owners/\${variables.ownerId}/pets\`,
-  });
+    client.request<ListOwnerPetsResponse>({
+        method: 'GET',
+        url: \`/owners/\${variables.ownerId}/pets\`,
+    })
 "
 `;
 
@@ -599,88 +579,88 @@ exports[`petstore > matches the snapshot > types.ts 1`] = `
  */
 
 export interface Pet {
-  /**
-   * Unique identifier.
-   */
-  id: string;
-  name: string;
-  tag?: string;
-  status?: 'available' | 'pending' | 'sold';
-  owner?: Owner;
-  birthDate?: string;
+    /**
+     * Unique identifier.
+     */
+    id: string
+    name: string
+    tag?: string
+    status?: 'available' | 'pending' | 'sold'
+    owner?: Owner
+    birthDate?: string
 }
 
 export interface NewPet {
-  name: string;
-  tag?: string;
+    name: string
+    tag?: string
 }
 
 export interface Owner {
-  id: string;
-  name?: string;
-  email?: string;
+    id: string
+    name?: string
+    email?: string
 }
 
 /**
  * Variables for \`GET /pets\`.
  */
 export type ListPetsVariables = {
-  /**
-   * Maximum number of pets to return.
-   */
-  limit?: number;
-  status?: 'available' | 'pending' | 'sold';
-};
+    /**
+     * Maximum number of pets to return.
+     */
+    limit?: number
+    status?: 'available' | 'pending' | 'sold'
+}
 
-export type ListPetsResponse = Pet[];
+export type ListPetsResponse = Pet[]
 
 /**
  * Variables for \`POST /pets\`.
  */
 export type CreatePetVariables = {
-  body: NewPet;
-};
+    body: NewPet
+}
 
-export type CreatePetResponse = Pet;
+export type CreatePetResponse = Pet
 
 /**
  * Variables for \`GET /pets/{petId}\`.
  */
 export type GetPetVariables = {
-  /**
-   * The pet's unique identifier.
-   */
-  petId: string;
-};
+    /**
+     * The pet's unique identifier.
+     */
+    petId: string
+}
 
-export type GetPetResponse = Pet;
+export type GetPetResponse = Pet
 
 /**
  * Variables for \`PUT /pets/{petId}\`.
  */
 export type UpdatePetVariables = {
-  petId: string;
-  body: NewPet;
-};
+    petId: string
+    body: NewPet
+}
 
-export type UpdatePetResponse = Pet;
+export type UpdatePetResponse = Pet
 
 /**
  * Variables for \`DELETE /pets/{petId}\`.
  */
 export type DeletePetVariables = {
-  petId: string;
-};
+    petId: string
+}
 
-export type DeletePetResponse = void;
+export type DeletePetResponse = void
 
 /**
  * Variables for \`GET /owners/{ownerId}/pets\`.
  */
 export type ListOwnerPetsVariables = {
-  ownerId: string;
-};
+    ownerId: string
+}
 
-export type ListOwnerPetsResponse = Pet[];
+export type ListOwnerPetsResponse = Pet[]
 "
 `;

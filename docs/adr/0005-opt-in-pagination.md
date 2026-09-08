@@ -42,8 +42,8 @@ or in the spec itself:
 
 ```yaml
 x-queryfish-pagination:
-  param: cursor
-  nextField: nextCursor
+    param: cursor
+    nextField: nextCursor
 ```
 
 Config wins over the extension, and `false` in config suppresses a spec-level

@@ -31,7 +31,7 @@ The API URL defaults to a placeholder host; point it somewhere real with
 single call clears every pet-related query:
 
 ```ts
-queryClient.invalidateQueries({ queryKey: ['pets'] });
+queryClient.invalidateQueries({ queryKey: ['pets'] })
 ```
 
 **Variables are typed from the spec.** `status` accepts only
