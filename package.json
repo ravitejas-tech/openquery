@@ -17,7 +17,7 @@
         "node": ">=20.19.0"
     },
     "bin": {
-        "queryfish": "./dist/cli/index.cjs"
+        "queryfish": "dist/cli/index.cjs"
     },
     "main": "./dist/index.cjs",
     "module": "./dist/index.mjs",
