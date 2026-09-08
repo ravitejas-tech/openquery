@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🐟 QueryFish
+<img src="./assets/logo.png" alt="QueryFish" width="400" />
+
+# QueryFish
 
 **Hook your API. Typed, straight from the spec.**
 
