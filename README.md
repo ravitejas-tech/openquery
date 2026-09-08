@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="./assets/logo.png" alt="QueryFish" width="400" />
-
-# QueryFish
+<img src="./assets/logo.png" alt="QueryFish" width="100%" />
 
 **Hook your API. Typed, straight from the spec.**
 
