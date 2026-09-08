@@ -83,7 +83,7 @@ export function Landing() {
                     <div className='animate-fade-in-up'>
                         <div className='mb-6 inline-flex items-center gap-2 rounded-full border border-brand-blue/20 bg-brand-blue/5 px-4 py-1.5 text-sm text-brand-sky'>
                             <span className='inline-block h-2 w-2 animate-pulse rounded-full bg-brand-sky' />
-                            v1.0.0 Released — MIT Licensed
+                            v1.0.0
                         </div>
                     </div>
 
