@@ -7,6 +7,7 @@ import './app.css'
 
 export const links: Route.LinksFunction = () => [
     { rel: 'icon', type: 'image/png', href: '/icon.png' },
+    { rel: 'apple-touch-icon', href: '/icon.png' },
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
     {
         rel: 'preconnect',
@@ -20,6 +21,24 @@ export const links: Route.LinksFunction = () => [
 ]
 
 export function Layout({ children }: { children: React.ReactNode }) {
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'QueryFish',
+        operatingSystem: 'Node.js',
+        applicationCategory: 'DeveloperApplication',
+        offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+        },
+        description:
+            'Turn OpenAPI 3.0, 3.1 and Swagger 2.0 specs into fully-typed React Query hooks powered by react-query-kit with zero runtime bundle overhead.',
+        softwareVersion: '1.0.0',
+        license: 'https://opensource.org/licenses/MIT',
+        url: 'https://queryfish.dev/',
+    }
+
     return (
         <html lang='en'>
             <head>
@@ -34,6 +53,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 />
                 <Meta />
                 <Links />
+                <script
+                    type='application/ld+json'
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
             </head>
             <body>
                 {children}
